@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,6 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\Circle.cs" />
+    <Compile Include="Config\HObjectWithColor.cs" />
+    <Compile Include="Config\Line.cs" />
+    <Compile Include="Config\Rectangle2.cs" />
+    <Compile Include="Config\SerializeHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
