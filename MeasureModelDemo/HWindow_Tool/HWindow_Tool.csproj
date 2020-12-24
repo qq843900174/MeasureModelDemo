@@ -55,6 +55,7 @@
     <Compile Include="Config\Line.cs" />
     <Compile Include="Config\Rectangle2.cs" />
     <Compile Include="Config\SerializeHelper.cs" />
+    <Compile Include="Model\GraphicsContext.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
