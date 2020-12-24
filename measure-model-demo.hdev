@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.1" halcon_version="17.12">
+<procedure name="main">
+<interface/>
+<body>
+<l>filePath := 'E:/MyProject/halcon_project/RectGlueMeasure/Image/各类形状泡棉/抛料图像采集/101/'</l>
+<l>imageNum := 5</l>
+<l>dev_update_off ()</l>
+<c></c>
+<l>ii := 1</l>
+<l>dev_close_window ()</l>
+<l>file := filePath + ii</l>
+<l>read_image (OrgImage, file)</l>
+<l>rgb1_to_gray (OrgImage, TestImage)</l>
+<l>get_image_size (TestImage, WidthTest, HeightTest)</l>
+<l>cenX := WidthTest / 2.0</l>
+<l>cenY := HeightTest / 2.0</l>
+<l>dev_open_window (0, 0, WidthTest / 1.0, HeightTest / 1.0, 'black', WindowHandle)</l>
+<l>rgb1_to_gray (TestImage, GrayImage)</l>
+<l>threshold (GrayImage, Region, 0, 180)</l>
+<l>closing_circle (Region, RegionClosing, 13.5)</l>
+<l>opening_circle (RegionClosing, RegionOpening, 3.5)</l>
+<l>connection (RegionOpening, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, SelectedRegions, 'rectangularity', 'and', 0.7, 1.0)</l>
+<l>smallest_rectangle2 (SelectedRegions, R, C, P, L1, L2)</l>
+<l>gen_rectangle2_contour_xld (Rectangle, R, C, P, L1, L2)</l>
+<l>RowSR := R</l>
+<l>ColSR := C</l>
+<l>PhiSR := P</l>
+<l>Angle_0 := P</l>
+<l>LengthSR1 := L1</l>
+<l>LengthSR2 := L2</l>
+<l>* rotateAngle := deg(P)</l>
+<l>* rotate_image (GrayImage, ImageRotate, -rotateAngle, 'constant')</l>
+<l>* get_image_size (ImageRotate, W0, H0)</l>
+<l>* dev_close_window ()</l>
+<l>* dev_open_window (0, 0, W0 / 1.0, H0 / 1.0, 'black', WindowHandle)</l>
+<l>* dev_display (ImageRotate)</l>
+<l>* threshold (ImageRotate, Region, 0, 180)</l>
+<l>* closing_circle (Region, RegionClosing, 13.5)</l>
+<l>* opening_circle (RegionClosing, RegionOpening, 3.5)</l>
+<l>* connection (RegionOpening, ConnectedRegions)</l>
+<l>* select_shape (ConnectedRegions, SelectedRegions, 'rectangularity', 'and', 0.7, 1.0)</l>
+<l>* gen_contour_region_xld (SelectedRegions, Image_Model, 'border')</l>
+<l>* smooth_contours_xld (Image_Model, Image_Model, 11)</l>
+<l>* create_shape_model_xld (Image_Model, 'auto', 0, rad(360), 'auto', 'auto', 'ignore_local_polarity', 5, ModelID)</l>
+<l>* dev_close_window ()</l>
+<l>* dev_open_window (0, 0, WidthTest / 1.0, HeightTest / 1.0, 'black', WindowHandle)</l>
+<l>* dev_display (GrayImage)</l>
+<l>* find_shape_model (GrayImage, ModelID, 0, rad(360), 0.5, 1, 0.5, 'least_squares', 0, 0.9, Row_0, Col_0, Angle_0, Score)</l>
+<l>* gen_rectangle2_contour_xld (RectSearch, Row_0, Col_0, Angle_0, L1, L2)</l>
+<c></c>
+<l>read_shape_model ('E:/MyProject/MeasureModelDemo/101-ShapeModel', ModelID)</l>
+<l>find_shape_model (GrayImage, ModelID, 0, rad(360), 0.5, 1, 0.5, 'least_squares', 0, 0.9, RowRough_0, ColRough_0, AngleRough_0, Score_0)</l>
+<l>ok_num := 0</l>
+<l>for ii := 1 to imageNum by 1</l>
+<l>    dev_close_window()</l>
+<l>    file := filePath + ii</l>
+<l>    read_image (OrgImage, file)</l>
+<l>    rgb1_to_gray (OrgImage, TestImage)</l>
+<l>    get_image_size (TestImage, WidthTest, HeightTest)</l>
+<l>    cenX := WidthTest / 2.0</l>
+<l>    cenY := HeightTest / 2.0</l>
+<l>    dev_open_window (0, 0, WidthTest / 1.0, HeightTest / 1.0, 'black', WindowHandle)</l>
+<c>    </c>
+<l>    count_seconds (t1)</l>
+<c>    </c>
+<l>    ok := false</l>
+<l>    offx := 0.0</l>
+<l>    offy := 0.0</l>
+<l>    angle := 0.0</l>
+<l>    row := 0.0</l>
+<l>    col := 0.0</l>
+<l>    gen_empty_obj (drawObj)</l>
+<c>    </c>
+<l>    ok := true</l>
+<l>    threshold := 0</l>
+<l>    hW := 0</l>
+<l>    hH := 0</l>
+<l>    area := 0</l>
+<l>    areaMin := 0</l>
+<l>    areaMax := 0</l>
+<l>    isLong := false</l>
+<c>    </c>
+<l>    isUseErZhi := 0</l>
+<l>    if (ii &lt;= 186)</l>
+<l>        threshold := 120</l>
+<c>        </c>
+<l>        hW := 164</l>
+<l>        hH := 119</l>
+<l>        materialW := hW * 2.0</l>
+<l>        materialH := hH * 2.0</l>
+<l>        area := materialW * materialH</l>
+<l>        areaMin := area * 0.6</l>
+<l>        areaMax := area * 1.4</l>
+<l>        isLong := false     </l>
+<l>    endif</l>
+<c>    </c>
+<l>    rgb1_to_gray (TestImage, GrayImage)</l>
+<c>    </c>
+<l>    isUseSmallestRect := true</l>
+<l>    tw := hW * 2.0</l>
+<c>    *预处理</c>
+<l>    emphasize (GrayImage, ImageEmphasize, 11, 11, 1)</l>
+<c>    *形状模板匹配搜索</c>
+<l>    find_shape_model (GrayImage, ModelID,  0, rad(360), 0.5, 1, 0.5, 'least_squares', 0, 0.9, RowRough, ColRough, AngleRough, Score)</l>
+<l>    if(Score &lt; 0.5)</l>
+<l>        ok := false</l>
+<l>        errCode := 1</l>
+<l>    else      </l>
+<c>        *仿射变换</c>
+<l>        vector_angle_to_rigid (RowRough_0, ColRough_0, AngleRough_0, RowRough, ColRough, AngleRough, HomMat2D)</l>
+<l>        RectParam := [RowSR, ColSR, PhiSR, LengthSR1, LengthSR2]</l>
+<l>        affine_trans_point_2d (HomMat2D, RowSR, ColSR, RectRow, RectCol)</l>
+<l>        PhiSR_new := Angle_0 + (AngleRough - AngleRough_0)</l>
+<l>        *RectParam_new := [RectRow, RectCol, PhiSR_new, Length1_0, Length2_0]</l>
+<l>        RectParam_new := [RectRow, RectCol, PhiSR_new, LengthSR1, LengthSR2]</l>
+<l>        gen_rectangle2 (RectROI, RectRow, RectCol, PhiSR_new, LengthSR1, LengthSR2)</l>
+<c>        *黑边替换成白边方法耗时太长</c>
+<l>*         gen_rectangle2 (RectROI, RectRow, RectCol, PhiSR_new, Length1_0 * 1.01, Length2_0 * 1.01)</l>
+<l>*         intensity (RectROI, GrayImage, ROIMean, Deviation)</l>
+<l>*         reduce_domain (GrayImage, RectROI, ImageReduced)</l>
+<l>*         emphasize (ImageReduced, ImageEmphasize, 11, 11, 1)</l>
+<l>*         gen_image_const (BlackImage, 'byte', WidthTest, HeightTest)</l>
+<l>*         add_image (BlackImage, ImageEmphasize, ImageResult, 1, 0)</l>
+<l>*         BlackLineGray := ROIMean - 60</l>
+<l>*         get_region_points (RectROI, RowROI, ColROI)</l>
+<l>*         count_seconds (Second1)</l>
+<l>*         for i := 0 to |RowROI| - 1 by 1</l>
+<l>*             get_grayval (ImageReduced, RowROI[i], ColROI[i], Grayval)</l>
+<l>*             if(Grayval &lt; BlackLineGray)</l>
+<l>*                 set_grayval (ImageReduced, RowROI[i], ColROI[i], 255)</l>
+<l>*             endif</l>
+<l>*         endfor</l>
+<l>*         count_seconds (Second2)</l>
+<l>*         runtime := round((Second2 - Second1)* 1000)</l>
+<l>*         stop()</l>
+<c>        </c>
+<c>        *done</c>
+<l>        add_metrology_object_generic (RectHandle, 'rectangle2', RectParam_new, 10, 5, 4.8, 20, \
+                                  ['num_instances','measure_transition', 'min_score'], \
+                                  [2, 'all', 0.7], RectIndex)</l>
+<c>        *test</c>
+<l>*         add_metrology_object_generic (RectHandle, 'rectangle2', RectParam_new, 10, 5, 4.8, 20, \
+                                  [], \
+                                  [], RectIndex)</l>
+<c>        *找最外侧的点</c>
+<l>*         add_metrology_object_generic (RectHandle, 'rectangle2', RectParam_new, 20, 5, 4.8, 20, \
+                                  ['num_instances','measure_transition', 'min_score', 'measure_select'], \
+                                  [2, 'all', 0.7, 'last'], RectIndex)</l>
+<l>        apply_metrology_model (ImageEmphasize, RectHandle)</l>
+<l>        get_metrology_object_model_contour (ModelRect, RectHandle, RectIndex, 1.5)</l>
+<l>        get_metrology_object_measures (MeasureRect, RectHandle, RectIndex, 'all', RowR, ColumnR)</l>
+<c>        </c>
+<l>*         get_metrology_object_result (RectHandle, 'all', 'all', 'used_edges', 'row', UsedRow)</l>
+<l>*         get_metrology_object_result (RectHandle, 'all', 'all', 'used_edges', 'column', UsedColumn)</l>
+<l>*         gen_cross_contour_xld (UsedEdges, UsedRow, UsedColumn, 10, rad(45))</l>
+<c>        </c>
+<l>        gen_cross_contour_xld (MeasureCross, RowR, ColumnR, 10, 0)       </l>
+<l>        get_metrology_object_result (RectHandle, RectIndex, 'all', 'result_type', 'all_param', ParamResult)</l>
+<l>        if(|ParamResult| &lt;= 0)</l>
+<l>            ok := false</l>
+<l>            errCode := 2</l>
+<l>        else</l>
+<l>            get_metrology_object_result_contour (ResultRect, RectHandle, RectIndex, 'all', 1)</l>
+<l>            dev_clear_window ()</l>
+<l>            dev_display (GrayImage)</l>
+<l>            dev_display (Cross)</l>
+<l>*             dev_display (MeasureRect)</l>
+<l>            dev_display (ResultRect)</l>
+<l>            rowCenT := ParamResult[0]</l>
+<l>            colCenT := ParamResult[1]</l>
+<l>            phi := ParamResult[2]</l>
+<l>            ang := deg(phi)</l>
+<l>            ang := ang - 90</l>
+<l>            if(ang &lt; 0)</l>
+<l>                ang := ang + 360</l>
+<l>            endif</l>
+<l>            Phi := rad(ang)</l>
+<l>*             stop()</l>
+<l>        endif</l>
+<l>    endif</l>
+<c>        </c>
+<c>    </c>
+<c></c>
+<l>    if (ok == true)</l>
+<l>        gen_empty_obj(drawObj)</l>
+<l>        concat_obj(drawObj, ResultRect, drawObj)    </l>
+<c>        </c>
+<l>        row := rowCenT</l>
+<l>        col := colCenT</l>
+<l>        offx := col - cenX</l>
+<l>        offy := row - cenY</l>
+<c>        </c>
+<l>        tmp := deg(Phi)</l>
+<l>        if (tmp &lt; 0)</l>
+<l>            tmp := tmp + 360.0</l>
+<l>        endif</l>
+<l>        isY := 0</l>
+<l>        if (isY == 1)</l>
+<l>            if (tmp &gt;= 0.0 and tmp &lt;= 90.0)</l>
+<l>                RAng := tmp - 90.0</l>
+<l>            elseif (tmp &gt; 90.0 and tmp &lt;= 180.0)</l>
+<l>                RAng := 180.0 - tmp</l>
+<l>            elseif (tmp &gt; 180.0 and tmp &lt;= 270.0)</l>
+<l>                RAng :=  tmp - 270.0</l>
+<l>            elseif (tmp &gt; 270.0 and tmp &lt;= 360.0)</l>
+<l>                RAng := tmp - 270.0</l>
+<l>            endif</l>
+<l>        else</l>
+<l>            RAng := tmp</l>
+<l>        endif</l>
+<l>        if (RAng &lt; 0)</l>
+<l>            RAng := RAng + 360.0</l>
+<l>        endif</l>
+<c>        </c>
+<l>        angle := ang      </l>
+<l>        phi := (angle * 3.1415926) / 180.0</l>
+<c>        </c>
+<l>        Len := 100       </l>
+<l>        tmpValCol := 0.0</l>
+<l>        tmpValRow := 0.0</l>
+<l>        ValRow := 0.0</l>
+<l>        ValRow := 0.0</l>
+<c>        </c>
+<l>        AngleX := phi</l>
+<l>        RowX := row</l>
+<l>        ColX := col + Len</l>
+<l>        tmpValCol := Len * cos(AngleX)</l>
+<l>        tmpValRow := Len * sin(AngleX)</l>
+<l>        ValCol := abs(tmpValCol)</l>
+<l>        ValRow := abs(tmpValRow)</l>
+<l>        if(tmpValCol &gt;= 0.0 and tmpValRow &gt;= 0.0)</l>
+<l>            Line1Col := col + ValCol</l>
+<l>            Line1Row := row - ValRow</l>
+<l>        elseif(tmpValCol &lt;= 0.0 and tmpValRow &gt;= 0.0)</l>
+<l>            Line1Col := col - ValCol</l>
+<l>            Line1Row := row - ValRow</l>
+<l>        elseif(tmpValCol &lt;= 0.0 and tmpValRow &lt;= 0.0)</l>
+<l>            Line1Col := col - ValCol</l>
+<l>            Line1Row := row + ValRow</l>
+<l>        else</l>
+<l>            Line1Col := col + ValCol</l>
+<l>            Line1Row := row + ValRow</l>
+<l>        endif</l>
+<c>        </c>
+<l>        AngleY := phi + (3.1415926 / 2.0)</l>
+<l>        RowY := row - Len</l>
+<l>        ColY := col</l>
+<l>        tmpValCol := Len * cos(AngleY)</l>
+<l>        tmpValRow := Len * sin(AngleY)</l>
+<l>        ValCol := abs(tmpValCol)</l>
+<l>        ValRow := abs(tmpValRow)</l>
+<l>        if(tmpValCol &gt;= 0.0 and tmpValRow &gt;= 0.0)</l>
+<l>            Line2Col := col + ValCol</l>
+<l>            Line2Row := row - ValRow</l>
+<l>        elseif(tmpValCol &lt;= 0.0 and tmpValRow &gt;= 0.0)</l>
+<l>            Line2Col := col - ValCol</l>
+<l>            Line2Row := row - ValRow</l>
+<l>        elseif(tmpValCol &lt;= 0.0 and tmpValRow &lt;= 0.0)</l>
+<l>            Line2Col := col - ValCol</l>
+<l>            Line2Row := row + ValRow</l>
+<l>        else</l>
+<l>            Line2Col := col + ValCol</l>
+<l>            Line2Row := row + ValRow</l>
+<l>        endif</l>
+<c>        </c>
+<l>        gen_cross_contour_xld(Cross, row, col, 15, 0)</l>
+<l>        gen_arrow_contour_xld(Arrow1, row, col, Line1Row, Line1Col, 8, 5)</l>
+<l>        gen_arrow_contour_xld(Arrow2, row, col, RowX, ColX, 8, 5)</l>
+<l>    endif</l>
+<c>   </c>
+<l>    count_seconds(t2)</l>
+<l>    tm := (t2 - t1) * 1000.0</l>
+<c>    </c>
+<l>    dev_clear_window()</l>
+<l>    dev_display(TestImage)</l>
+<l>    if (ok == true)</l>
+<l>        dev_set_color('blue')</l>
+<l>        dev_display(drawObj)</l>
+<l>        dev_set_color('green')</l>
+<l>        *dev_display(lineObj)</l>
+<l>        dev_set_color('violet red')</l>
+<l>        disp_cross(WindowHandle, cenY, cenX, 1500, 0)</l>
+<l>        dev_set_color('coral')</l>
+<l>        *disp_cross(WindowHandle, row, col, 10, 0)</l>
+<l>        dev_display(Cross)</l>
+<l>        dev_set_color('green')</l>
+<l>        *disp_arrow(WindowHandle, row, col, Line1Row, Line1Col, 1.0)</l>
+<l>        *disp_arrow(WindowHandle, row, col, RowX, ColX, 1.0)</l>
+<l>        *disp_arrow(WindowHandle, row, col, Line2Row, Line2Col, 1.0)</l>
+<l>        *disp_arrow(WindowHandle, row, col, RowY, ColY, 1.0)</l>
+<l>        dev_display(Arrow1)</l>
+<l>        dev_display(Arrow2)</l>
+<c></c>
+<l>        dev_set_color('green')</l>
+<l>        set_display_font (WindowHandle, 14, 'mono', 'true', 'false')</l>
+<l>        Msg := 'X:' + offx$'.2f'</l>
+<l>        set_tposition(WindowHandle, 10, 10)</l>
+<l>        write_string(WindowHandle, Msg)</l>
+<l>        Msg := 'Y:' + offy$'.2f'</l>
+<l>        set_tposition(WindowHandle, 25, 10)</l>
+<l>        write_string(WindowHandle, Msg)</l>
+<l>        Msg := 'Angle:' + angle$'.2f'</l>
+<l>        set_tposition(WindowHandle, 40, 10)</l>
+<l>        write_string(WindowHandle, Msg)     </l>
+<l>        Msg := 'SpanTime:' + tm$'.2f'</l>
+<l>        set_tposition(WindowHandle, 55, 10)</l>
+<l>        write_string(WindowHandle, Msg) </l>
+<l>    else</l>
+<l>        dev_set_color('red')</l>
+<l>        set_display_font (WindowHandle, 14, 'mono', 'true', 'false')</l>
+<l>        Msg := 'NG!'</l>
+<l>        set_tposition(WindowHandle, 10, 10)</l>
+<l>        write_string(WindowHandle, Msg)</l>
+<l>        Msg := 'Error Code:' + errCode</l>
+<l>        set_tposition(WindowHandle, 25, 10)</l>
+<l>        write_string(WindowHandle, Msg)</l>
+<l>    endif</l>
+<l>*     wait_seconds(0.5)</l>
+<l>    if (ok == true)</l>
+<l>        ok_num := ok_num + 1</l>
+<l>    endif</l>
+<l>    stop()</l>
+<c>    </c>
+<l>endfor</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
