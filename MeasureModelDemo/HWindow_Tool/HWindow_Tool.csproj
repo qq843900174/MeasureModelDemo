@@ -53,11 +53,32 @@
     <Compile Include="Config\Circle.cs" />
     <Compile Include="Config\HObjectWithColor.cs" />
     <Compile Include="Config\Line.cs" />
+    <Compile Include="Config\Rectangle1.cs" />
     <Compile Include="Config\Rectangle2.cs" />
     <Compile Include="Config\SerializeHelper.cs" />
+    <Compile Include="HWindow_Final.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="HWindow_Final.Designer.cs">
+      <DependentUpon>HWindow_Final.cs</DependentUpon>
+    </Compile>
     <Compile Include="Model\GraphicsContext.cs" />
+    <Compile Include="Model\HObjectEntry.cs" />
+    <Compile Include="Model\HWndCtrl.cs" />
+    <Compile Include="Model\IViewWindow.cs" />
+    <Compile Include="Model\ROI.cs" />
+    <Compile Include="Model\ROICircle.cs" />
+    <Compile Include="Model\ROIController.cs" />
+    <Compile Include="Model\RoiData.cs" />
+    <Compile Include="Model\ROILine.cs" />
+    <Compile Include="Model\ROIRectangle1.cs" />
+    <Compile Include="Model\ROIRectangle2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewWindow.cs" />
+    <EmbeddedResource Include="HWindow_Final.resx">
+      <DependentUpon>HWindow_Final.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

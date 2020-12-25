@@ -47,6 +47,14 @@ namespace ViewWindow.Config
             set { this._length2 = value; }
         }
 
+        private string color = "yellow";
+        [XmlElement(ElementName = "Color")]
+        public string Color
+        {
+            get { return this.color; }
+            set { this.color = value; }
+        }
+
         public Rectangle2()
         {
 

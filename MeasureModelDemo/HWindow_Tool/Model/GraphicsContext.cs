@@ -31,7 +31,7 @@ namespace ViewWindow.Model
         /// <summary> 
         /// 备份最近的图像内容应用于窗体。
         /// </summary>
-        private Hashtable stateOfSettings;
+        public Hashtable stateOfSettings;
 
         private IEnumerator iterator;
 
