@@ -1,4 +1,4 @@
-﻿namespace ViewWindow
+﻿namespace ChoiceTech.Halcon.Control
 {
     partial class HWindow_Final
     {
@@ -10,7 +10,7 @@
         /// <summary> 
         /// 清理所有正在使用的资源。
         /// </summary>
-        /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param> 
+        /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -30,7 +30,7 @@
             }
             base.Dispose(disposing);
         }
-        
+
         #region 组件设计器生成的代码
 
         /// <summary> 
@@ -78,8 +78,8 @@
             this.mCtrl_HWindow.Size = new System.Drawing.Size(395, 304);
             this.mCtrl_HWindow.TabIndex = 0;
             this.mCtrl_HWindow.WindowSize = new System.Drawing.Size(395, 304);
-            //this.mCtrl_HWindow.HMouseMove += new HalconDotNet.HMouseEventHandler(this.HWindowControl_HMouseMove);
-            //this.mCtrl_HWindow.MouseLeave += new System.EventHandler(this.mCtrl_HWindow_MouseLeave);
+            this.mCtrl_HWindow.HMouseMove += new HalconDotNet.HMouseEventHandler(this.HWindowControl_HMouseMove);
+            this.mCtrl_HWindow.MouseLeave += new System.EventHandler(this.mCtrl_HWindow_MouseLeave);
             // 
             // HWindow_Final
             // 

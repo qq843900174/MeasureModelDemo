@@ -1,0 +1,13 @@
+F:\算法库\MeasureModelDemo\MeasureModelDemo\HWindow_Tool\obj\Debug\HWindow_Tool.csprojAssemblyReference.cache
+F:\算法库\MeasureModelDemo\MeasureModelDemo\HWindow_Tool\obj\Debug\ChoiceTech.Halcon.Control.HWindow_Final.resources
+F:\算法库\MeasureModelDemo\MeasureModelDemo\HWindow_Tool\obj\Debug\HWindow_Tool.Properties.Resources.resources
+F:\算法库\MeasureModelDemo\MeasureModelDemo\HWindow_Tool\obj\Debug\HWindow_Tool.csproj.GenerateResource.cache
+F:\算法库\MeasureModelDemo\MeasureModelDemo\HWindow_Tool\obj\Debug\HWindow_Tool.csproj.CoreCompileInputs.cache
+F:\算法库\MeasureModelDemo\MeasureModelDemo\HWindow_Tool\bin\Debug\HWindow_Tool.exe.config
+F:\算法库\MeasureModelDemo\MeasureModelDemo\HWindow_Tool\bin\Debug\HWindow_Tool.exe
+F:\算法库\MeasureModelDemo\MeasureModelDemo\HWindow_Tool\bin\Debug\HWindow_Tool.pdb
+F:\算法库\MeasureModelDemo\MeasureModelDemo\HWindow_Tool\bin\Debug\halcondotnet.dll
+F:\算法库\MeasureModelDemo\MeasureModelDemo\HWindow_Tool\bin\Debug\halcondotnet.xml
+F:\算法库\MeasureModelDemo\MeasureModelDemo\HWindow_Tool\obj\Debug\HWindow_Tool.csproj.CopyComplete
+F:\算法库\MeasureModelDemo\MeasureModelDemo\HWindow_Tool\obj\Debug\HWindow_Tool.exe
+F:\算法库\MeasureModelDemo\MeasureModelDemo\HWindow_Tool\obj\Debug\HWindow_Tool.pdb
