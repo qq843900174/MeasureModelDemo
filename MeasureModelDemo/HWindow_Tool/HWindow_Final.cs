@@ -30,10 +30,10 @@ namespace ChoiceTech.Halcon.Control
         ToolStripMenuItem fit_strip;
         ToolStripMenuItem saveImg_strip;
         ToolStripMenuItem saveWindow_strip;
-        ToolStripMenuItem barVisible_strip;
-        ToolStripMenuItem histogram_strip;
+        //ToolStripMenuItem barVisible_strip;
+        //ToolStripMenuItem histogram_strip;
 
-        private HImage  /**/                 hv_image;                                        //缩放时操作的图片  此处千万不要使用hv_image = new HImage(),不然在生成控件dll的时候,会导致无法序列化,去你妈隔壁,还好老子有版本控制,不然都找不到这种恶心问题
+        private HImage  /**/                 hv_image;                                        //缩放时操作的图片  此处千万不要使用hv_image = new HImage(),不然在生成控件dll的时候,会导致无法序列化。
         private int /**/                     hv_imageWidth, hv_imageHeight;                   //图片宽,高
         private string /**/                  str_imgSize;                                     //图片尺寸大小 5120X3840
         private bool    /**/                 drawModel = false;                                //绘制模式下,不允许缩放和鼠标右键菜单
@@ -64,11 +64,11 @@ namespace ChoiceTech.Halcon.Control
             fit_strip = new ToolStripMenuItem("适应窗口");
             fit_strip.Click += new EventHandler((s, e) => DispImageFit(mCtrl_HWindow));
 
-            barVisible_strip = new ToolStripMenuItem("显示StatusBar");
-            barVisible_strip.CheckOnClick = true;
-            barVisible_strip.CheckedChanged += new EventHandler(barVisible_strip_CheckedChanged);
-            m_CtrlHStatusLabelCtrl.Visible = false;
-            mCtrl_HWindow.Height = this.Height;
+            //barVisible_strip = new ToolStripMenuItem("显示StatusBar");
+            //barVisible_strip.CheckOnClick = true;
+            //barVisible_strip.CheckedChanged += new EventHandler(barVisible_strip_CheckedChanged);
+            //m_CtrlHStatusLabelCtrl.Visible = false;
+            //mCtrl_HWindow.Height = this.Height;
 
             saveImg_strip = new ToolStripMenuItem("保存原始图像");
             saveImg_strip.Click += new EventHandler((s, e) => SaveImage());
@@ -76,20 +76,20 @@ namespace ChoiceTech.Halcon.Control
             saveWindow_strip = new ToolStripMenuItem("保存窗口缩略图");
             saveWindow_strip.Click += new EventHandler((s, e) => SaveWindowDump());
 
-            histogram_strip = new ToolStripMenuItem("显示直方图(H)");
-            histogram_strip.CheckOnClick = true;
-            histogram_strip.Checked = false;
+            //histogram_strip = new ToolStripMenuItem("显示直方图(H)");
+            //histogram_strip.CheckOnClick = true;
+            //histogram_strip.Checked = false;
 
             hv_MenuStrip = new ContextMenuStrip();
             hv_MenuStrip.Items.Add(fit_strip);
-            hv_MenuStrip.Items.Add(barVisible_strip);
+            //hv_MenuStrip.Items.Add(barVisible_strip);
             hv_MenuStrip.Items.Add(new ToolStripSeparator());
             hv_MenuStrip.Items.Add(saveImg_strip);
             hv_MenuStrip.Items.Add(saveWindow_strip);
 
-            barVisible_strip.Enabled = true;
+            //barVisible_strip.Enabled = true;
             fit_strip.Enabled = false;
-            histogram_strip.Enabled = false;
+            //histogram_strip.Enabled = false;
             saveImg_strip.Enabled = false;
             saveWindow_strip.Enabled = false;
 
@@ -112,7 +112,6 @@ namespace ChoiceTech.Halcon.Control
                 //绘制模式 不现实右键
                 if (value == true)
                 {
-
                     mCtrl_HWindow.ContextMenuStrip = null;
                 }
                 else
@@ -149,9 +148,9 @@ namespace ChoiceTech.Halcon.Control
                     //DispImageFit(mCtrl_HWindow);
                     try
                     {
-                        barVisible_strip.Enabled = true;
+                        //barVisible_strip.Enabled = true;
                         fit_strip.Enabled = true;
-                        histogram_strip.Enabled = true;
+                        //histogram_strip.Enabled = true;
                         saveImg_strip.Enabled = true;
                         saveWindow_strip.Enabled = true;
                     }
@@ -207,10 +206,10 @@ namespace ChoiceTech.Halcon.Control
             this.PerformLayout();
         }
 
-        public void showStatusBar()
-        {
-            barVisible_strip.Checked = true;
-        }
+        //public void showStatusBar()
+        //{
+        //    barVisible_strip.Checked = true;
+        //}
 
         /// <summary>
         /// 保存窗体截图到本地
@@ -258,6 +257,35 @@ namespace ChoiceTech.Halcon.Control
 
             try
             {
+                //double m_Factor = 0.0;
+                ////比较输入图像和窗口的尺寸大小，计算出比例。
+                //    if (hv_imageWidth > hWindowControl.Width && hv_imageHeight > hWindowControl.Height)
+                //    {
+                //        double ratioW = 0.0, ratioH = 0.0;
+                //        ratioW = double.Parse((hWindowControl.Width - 0).ToString()) / double.Parse(hv_imageWidth.ToString());
+                //        ratioH = double.Parse((hWindowControl.Height - 0).ToString()) / double.Parse(hv_imageHeight.ToString());
+                //        if (ratioW < ratioH)
+                //        {
+                //            m_Factor = ratioW;
+                //        }
+                //        else
+                //        {
+                //            m_Factor = ratioH;
+                //        }
+                //    }
+                //    else if (hv_imageWidth > hWindowControl.Width && hv_imageHeight <= hWindowControl.Height)
+                //    {
+                //        m_Factor = double.Parse((hWindowControl.Width - 0).ToString()) / double.Parse(Width.ToString());
+                //    }
+                //    else if (hv_imageHeight > hWindowControl.Height && hv_imageWidth <= hWindowControl.Width)
+                //    {
+                //        m_Factor = double.Parse((hWindowControl.Height - 0).ToString()) / double.Parse(Height.ToString());
+                //    }
+                //hv_image.ZoomImageFactor(m_Factor, m_Factor, "bicubic");
+                //hv_window.ClearWindow();
+                ////HOperatorSet.SetPart(hwindow, 0, 0, m_HWindowHeight, m_HWindowWidth);
+                //hv_window.DispObj(hv_image);
+                //lqj
                 this.viewWindow.resetWindowImage();
             }
             catch (Exception)
@@ -345,9 +373,9 @@ namespace ChoiceTech.Halcon.Control
                         {
                             //this.hv_image = null;
                             m_CtrlHStatusLabelCtrl.Visible = false;
-                            barVisible_strip.Enabled = false;
+                            //barVisible_strip.Enabled = false;
                             fit_strip.Enabled = false;
-                            histogram_strip.Enabled = false;
+                            //histogram_strip.Enabled = false;
                             saveImg_strip.Enabled = false;
                             saveWindow_strip.Enabled = false;
 

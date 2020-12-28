@@ -95,9 +95,9 @@ namespace ViewWindow.Model
 
             window.DispLine(row1, col1, row2, col2);
 
-            window.DispRectangle2(row1, col1, 0, 25, 25);
+            window.DispRectangle2(row1, col1, 0, 5, 5);
             window.DispObj(arrowHandleXLD);  //window.DispRectangle2( row2, col2, 0, 25, 25);
-            window.DispRectangle2(midR, midC, 0, 25, 25);
+            window.DispRectangle2(midR, midC, 0, 5, 5);
         }
 
         /// <summary> 
@@ -135,13 +135,13 @@ namespace ViewWindow.Model
             switch (activeHandleIdx)
             {
                 case 0:
-                    window.DispRectangle2(row1, col1, 0, 25, 25);
+                    window.DispRectangle2(row1, col1, 0, 5, 5);
                     break;
                 case 1:
                     window.DispObj(arrowHandleXLD); //window.DispRectangle2(row2, col2, 0, 25, 25);
                     break;
                 case 2:
-                    window.DispRectangle2(midR, midC, 0, 25, 25);
+                    window.DispRectangle2(midR, midC, 0, 5, 5);
                     break;
             }
         }
@@ -216,8 +216,8 @@ namespace ViewWindow.Model
             double length, dr, dc, halfHW;
             double rrow1, ccol1, rowP1, colP1, rowP2, colP2;
 
-            double headLength = 35;
-            double headWidth = 35;
+            double headLength = 15;
+            double headWidth = 15;
 
 
             arrowHandleXLD.Dispose();

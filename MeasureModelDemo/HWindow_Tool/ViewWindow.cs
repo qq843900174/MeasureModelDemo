@@ -36,6 +36,21 @@ namespace ViewWindow
             //清空roi容器,不让roi显示
             this._roiController.reset();
             //显示图片
+            this._hWndControl.zoomImage(1.0);
+            this._roiController.resetWindowImage();
+
+
+            //this._hWndControl.resetWindow();
+            // this._hWndControl.resetAll();
+            //this._hWndControl.repaint();
+        }
+        public void displayZoomImage(HObject img)
+        {
+            //添加背景图片
+            this._hWndControl.addImageShow(img);
+            //清空roi容器,不让roi显示
+            this._roiController.reset();
+            //显示图片
             this._roiController.resetWindowImage();
 
 

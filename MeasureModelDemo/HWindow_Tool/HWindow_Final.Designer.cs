@@ -62,8 +62,8 @@
             // 
             this.m_CtrlImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("m_CtrlImageList.ImageStream")));
             this.m_CtrlImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.m_CtrlImageList.Images.SetKeyName(0, "TableIcon.png");
-            this.m_CtrlImageList.Images.SetKeyName(1, "PicturesIcon.png");
+            //this.m_CtrlImageList.Images.SetKeyName(0, "TableIcon.png");
+            //this.m_CtrlImageList.Images.SetKeyName(1, "PicturesIcon.png");
             // 
             // mCtrl_HWindow
             // 

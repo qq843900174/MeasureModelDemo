@@ -728,7 +728,8 @@ namespace ViewWindow.Model
         /// </summary>
         protected internal void resetWindowImage()
         {
-            //this.viewController.resetWindow();
+            this.viewController.resetWindow();
+            this.viewController.zoomImage(1.0);
             this.viewController.repaint();
         }
 

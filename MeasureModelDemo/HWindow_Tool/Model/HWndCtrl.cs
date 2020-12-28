@@ -322,23 +322,59 @@ namespace ViewWindow.Model
         public void zoomImage(double scaleFactor)
         {
 
-            double midPointX, midPointY;
+            //double midPointX, midPointY;
 
-            if (((ImgRow2 - ImgRow1) == scaleFactor * imageHeight) &&
-                ((ImgCol2 - ImgCol1) == scaleFactor * imageWidth))
+            //if (((ImgRow2 - ImgRow1) == scaleFactor * imageHeight) &&
+            //    ((ImgCol2 - ImgCol1) == scaleFactor * imageWidth))
+            //{
+            //    repaint();
+            //    return;
+            //}
+
+            //ImgRow2 = ImgRow1 + imageHeight;
+            //ImgCol2 = ImgCol1 + imageWidth;
+
+            //midPointX = ImgCol1;
+            //midPointY = ImgRow1;
+
+            //zoomWndFactor = (double)imageWidth / viewPort.Width;
+            //zoomImage(midPointX, midPointY, scaleFactor);
+            //关闭缩放事件
+            if (drawModel)
             {
-                repaint();
                 return;
             }
 
-            ImgRow2 = ImgRow1 + imageHeight;
-            ImgCol2 = ImgCol1 + imageWidth;
+            double lengthC, lengthR;
+            double percentC, percentR;
+            int lenC, lenR;
+            
+            percentC = (viewPort.Width / 2 - ImgCol1) / (ImgCol2 - ImgCol1);
+            percentR = (viewPort.Height / 2 - ImgRow1) / (ImgRow2 - ImgRow1);
 
-            midPointX = ImgCol1;
-            midPointY = ImgRow1;
+            lengthC = (ImgCol2 - ImgCol1) * scaleFactor;
+            lengthR = (ImgRow2 - ImgRow1) * scaleFactor;
 
-            zoomWndFactor = (double)imageWidth / viewPort.Width;
-            zoomImage(midPointX, midPointY, scaleFactor);
+            ImgCol1 = viewPort.Width / 2 - lengthC * percentC;
+            ImgCol2 = viewPort.Width / 2 + lengthC * (1 - percentC);
+
+            ImgRow1 = viewPort.Height / 2 - lengthR * percentR;
+            ImgRow2 = viewPort.Height / 2 + lengthR * (1 - percentR);
+
+            lenC = (int)Math.Round(lengthC);
+            lenR = (int)Math.Round(lengthR);
+            
+            System.Drawing.Rectangle rect = viewPort.ImagePart;
+            rect.X = (int)Math.Round(ImgCol1);
+            rect.Y = (int)Math.Round(ImgRow1);
+            rect.Width = (lenC > 0) ? lenC : 1;
+            rect.Height = (lenR > 0) ? lenR : 1;
+            viewPort.ImagePart = rect;
+
+            double _zoomWndFactor = 1;
+            _zoomWndFactor = scaleFactor * zoomWndFactor;
+            zoomWndFactor = _zoomWndFactor;
+            repaint();
         }
 
 
@@ -423,12 +459,33 @@ namespace ViewWindow.Model
 
         protected internal void resetWindow()
         {
+            double ScaleWidth, ScaleHeight;
+
             ImgRow1 = 0;
             ImgCol1 = 0;
             ImgRow2 = imageHeight;
             ImgCol2 = imageWidth;
 
             zoomWndFactor = (double)imageWidth / viewPort.Width;
+            ScaleWidth = (double)imageWidth / viewPort.Width;
+            ScaleHeight = (double)imageHeight / viewPort.Height;
+
+            if (ScaleWidth >= ScaleHeight)
+            {
+                ImgRow1 = -(1.0) * ((viewPort.Width * ScaleWidth) - imageHeight) / 2;
+                ImgCol1 = 0;
+                ImgRow2 = ImgRow1 + viewPort.Height * ScaleWidth;
+                ImgCol2 = ImgCol1 + viewPort.Width * ScaleWidth;
+                zoomWndFactor = ScaleHeight;
+            }
+            else
+            {
+                ImgRow1 = 0;
+                ImgCol1 = -(1.0) * ((viewPort.Width * ScaleHeight) - imageWidth) / 2;
+                ImgRow2 = ImgRow1 + viewPort.Height * ScaleHeight;
+                ImgCol2 = ImgCol1 + viewPort.Width * ScaleHeight;
+                zoomWndFactor = ScaleWidth;
+            }
 
             System.Drawing.Rectangle rect = viewPort.ImagePart;
             rect.X = (int)ImgCol1;

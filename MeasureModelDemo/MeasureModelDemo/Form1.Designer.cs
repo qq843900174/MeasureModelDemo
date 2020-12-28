@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.hWindowControl1 = new HalconDotNet.HWindowControl();
+            this.hWindowControl1 = new ChoiceTech.Halcon.Control.HWindow_Final();
             this.btn_OpenImage = new System.Windows.Forms.Button();
             this.btn_CreatShapeModel = new System.Windows.Forms.Button();
             this.btn_MeasureModel = new System.Windows.Forms.Button();
@@ -42,24 +42,26 @@
             this.labelThreshold = new System.Windows.Forms.Label();
             this.btnModelFile = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.comboBox_MeasureTool = new System.Windows.Forms.ComboBox();
+            this.pictureBox_MeasureToolEnable = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarThreshold)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_MeasureToolEnable)).BeginInit();
             this.SuspendLayout();
             // 
             // hWindowControl1
             // 
             this.hWindowControl1.BackColor = System.Drawing.Color.Black;
-            this.hWindowControl1.BorderColor = System.Drawing.Color.Black;
-            this.hWindowControl1.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
+            this.hWindowControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.hWindowControl1.DrawModel = false;
+            this.hWindowControl1.Image = null;
             this.hWindowControl1.Location = new System.Drawing.Point(12, 43);
+            this.hWindowControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.hWindowControl1.Name = "hWindowControl1";
             this.hWindowControl1.Size = new System.Drawing.Size(640, 480);
             this.hWindowControl1.TabIndex = 0;
-            this.hWindowControl1.WindowSize = new System.Drawing.Size(640, 480);
-            this.hWindowControl1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.HWindow_MouseWheel);
+            this.hWindowControl1.Load += new System.EventHandler(this.Form1_Load);
             // 
             // btn_OpenImage
             // 
@@ -83,7 +85,7 @@
             // 
             // btn_MeasureModel
             // 
-            this.btn_MeasureModel.Location = new System.Drawing.Point(145, 319);
+            this.btn_MeasureModel.Location = new System.Drawing.Point(78, 321);
             this.btn_MeasureModel.Name = "btn_MeasureModel";
             this.btn_MeasureModel.Size = new System.Drawing.Size(117, 35);
             this.btn_MeasureModel.TabIndex = 3;
@@ -188,7 +190,8 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.pictureBox1);
+            this.groupBox2.Controls.Add(this.comboBox_MeasureTool);
+            this.groupBox2.Controls.Add(this.pictureBox_MeasureToolEnable);
             this.groupBox2.Controls.Add(this.btn_MeasureModel);
             this.groupBox2.Location = new System.Drawing.Point(679, 221);
             this.groupBox2.Name = "groupBox2";
@@ -197,17 +200,26 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "测量模板参数";
             // 
-            // pictureBox1
+            // comboBox_MeasureTool
             // 
-            this.pictureBox1.Image = global::MeasureModelDemo.Properties.Resources.Disable;
-            this.pictureBox1.Location = new System.Drawing.Point(13, 25);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(78, 37);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.comboBox_MeasureTool.FormattingEnabled = true;
+            this.comboBox_MeasureTool.Location = new System.Drawing.Point(50, 88);
+            this.comboBox_MeasureTool.Name = "comboBox_MeasureTool";
+            this.comboBox_MeasureTool.Size = new System.Drawing.Size(157, 23);
+            this.comboBox_MeasureTool.TabIndex = 5;
+            this.comboBox_MeasureTool.SelectedIndexChanged += new System.EventHandler(this.comboBox_MeasureTool_Changed);
+            // 
+            // pictureBox_MeasureToolEnable
+            // 
+            this.pictureBox_MeasureToolEnable.Image = global::MeasureModelDemo.Properties.Resources.Disable;
+            this.pictureBox_MeasureToolEnable.Location = new System.Drawing.Point(13, 25);
+            this.pictureBox_MeasureToolEnable.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox_MeasureToolEnable.Name = "pictureBox_MeasureToolEnable";
+            this.pictureBox_MeasureToolEnable.Size = new System.Drawing.Size(78, 37);
+            this.pictureBox_MeasureToolEnable.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_MeasureToolEnable.TabIndex = 4;
+            this.pictureBox_MeasureToolEnable.TabStop = false;
+            this.pictureBox_MeasureToolEnable.Click += new System.EventHandler(this.pictureBox1_MearsureEnable_Click);
             // 
             // Form1
             // 
@@ -228,14 +240,14 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarThreshold)).EndInit();
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_MeasureToolEnable)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private HalconDotNet.HWindowControl hWindowControl1;
+        private ChoiceTech.Halcon.Control.HWindow_Final hWindowControl1;
         private System.Windows.Forms.Button btn_OpenImage;
         private System.Windows.Forms.Button btn_CreatShapeModel;
         private System.Windows.Forms.Button btn_MeasureModel;
@@ -249,7 +261,8 @@
         private System.Windows.Forms.RadioButton radioBtnWhiteBack;
         private System.Windows.Forms.Button btnModelFile;
         private System.Windows.Forms.GroupBox groupBox2;
-        public System.Windows.Forms.PictureBox pictureBox1;
+        public System.Windows.Forms.PictureBox pictureBox_MeasureToolEnable;
+        private System.Windows.Forms.ComboBox comboBox_MeasureTool;
     }
 }
 

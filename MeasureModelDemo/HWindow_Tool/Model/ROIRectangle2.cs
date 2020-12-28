@@ -142,10 +142,10 @@ namespace ViewWindow.Model
         {
             window.DispRectangle2(midR, midC, -phi, length1, length2);
             for (int i = 0; i < NumHandles; i++)
-                window.DispRectangle2(rows[i].D, cols[i].D, -phi, 25, 25);
+                window.DispRectangle2(rows[i].D, cols[i].D, -phi, 5, 5);
 
             window.DispArrow(midR, midC, midR + (Math.Sin(phi) * length1 * 1.2),
-                midC + (Math.Cos(phi) * length1 * 1.2), 5.0);
+                midC + (Math.Cos(phi) * length1 * 1.2), 2.0);
 
         }
 
@@ -186,13 +186,13 @@ namespace ViewWindow.Model
         {
             window.DispRectangle2(rows[activeHandleIdx].D,
                                   cols[activeHandleIdx].D,
-                                  -phi, 25, 25);
+                                  -phi, 5, 5);
 
             if (activeHandleIdx == 5)
                 window.DispArrow(midR, midC,
                                  midR + (Math.Sin(phi) * length1 * 1.2),
                                  midC + (Math.Cos(phi) * length1 * 1.2),
-                                 5.0);
+                                 2.0);
         }
 
 

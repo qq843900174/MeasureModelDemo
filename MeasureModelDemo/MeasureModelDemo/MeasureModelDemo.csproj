@@ -93,5 +93,11 @@
   <ItemGroup>
     <None Include="Properties\Enable.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HWindow_Tool\HWindow_Tool.csproj">
+      <Project>{637d02e5-89ac-4fae-847a-3c966854567f}</Project>
+      <Name>HWindow_Tool</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
