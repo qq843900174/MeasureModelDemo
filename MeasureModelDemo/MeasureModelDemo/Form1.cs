@@ -101,6 +101,10 @@ namespace MeasureModelDemo
                 string name = roi.GetType().Name;
                 this.regions[index] = roi;
             }
+            if(MeasureModelEnable)
+            {
+                applyMeasureTool();
+            }
         }
         private void btn_OpenImage_Click(object sender, EventArgs e)
         {
@@ -266,6 +270,8 @@ namespace MeasureModelDemo
                         break;
                     }
                     hWindowControl1.viewWindow.notDisplayRoi();
+                    hWindowControl1.viewWindow.ClearWindow();
+                    hWindowControl1.viewWindow.displayImage(m_GrayImage);
                     this.regions.Clear();
                     break;
             }
@@ -304,6 +310,181 @@ namespace MeasureModelDemo
                 }
             }
         }
+
+        private void btn_MeasureModel_Click(object sender, EventArgs e)
+        {
+            applyMeasureTool();
+        }
+
+        //应用测量工具到ROI上
+        #region 测量工具成员参数
+        internal List<HTuple> newExpecCircleRow = new List<HTuple>(), newExpectCircleCol = new List<HTuple>(), newExpectCircleRadius = new List<HTuple>();
+        /// <summary>
+        /// 显示卡尺
+        /// </summary>
+        internal bool displayCaliper = true;
+        /// <summary>
+        /// 显示特征点
+        /// </summary>
+        internal bool displayFeature = true;
+        /// <summary>
+        /// 显示结果圆
+        /// </summary>
+        internal bool displayCircle = true;
+        /// <summary>
+        /// 显示结果圆圆心
+        /// </summary>
+        internal bool displayCircleCenter = true;
+        /// <summary>
+        /// 期望圆圆心行坐标
+        /// </summary>
+        internal HTuple expectCircleRow = 300;
+        /// <summary>
+        /// 期望圆圆心列坐标
+        /// </summary>
+        internal HTuple expectCircleCol = 300;
+        /// <summary>
+        /// 期望圆半径
+        /// </summary>
+        internal HTuple expectCircleRadius = 200;
+
+        //internal List<double> ResultCircleRow = new List<double>();
+
+        //internal List<double> ResultCircleCol = new List<double>();
+
+        //internal List<double> ResultCircleRadius = new List<double>();
+
+        /// <summary>
+        /// 起始角度
+        /// </summary>
+        internal double startAngle = 10;
+        /// <summary>
+        /// 结束角度
+        /// </summary>
+        internal double endAngle = 360;
+        /// <summary>
+        /// 运行工具时是否刷新输入图像
+        /// </summary>
+        internal bool updateImage = false;
+        /// <summary>
+        /// 圆环径向长度
+        /// </summary>
+        internal int ringRadiusLength = 30;
+        internal int caliperWidth = 5;
+        /// <summary>
+        /// 边阈值
+        /// </summary>
+        internal int threshold = 30;
+        //internal List<XY> circleCenter = new List<XY>();
+        internal int ignoreNum = 0;
+        /// <summary>
+        /// 卡尺
+        /// </summary>
+        internal HObject contours;
+        /// <summary>
+        /// 找边极性，从明到暗或从暗到明
+        /// </summary>
+        internal string polarity = "positive";
+        internal string edgeSelect = "all";
+        internal double minScore = 0.5;
+        /// <summary>
+        /// 卡尺数量
+        /// </summary>
+        internal int cliperNum = 30;
+        #endregion
+        private void applyMeasureTool()
+        {
+            if (this.regions.Count() <= 0 || m_OpenImage == null || m_OpenImage.CountObj() <= 0)
+            {
+                return;
+            }
+
+            //MessageBox.Show("ok");
+            hWindowControl1.Focus();
+            //////groupBox_tool.Enabled = false;
+
+            HTuple hv_Button = null;
+            HTuple hv_Row = null, hv_Column = null;
+            HTuple areaBrush, rowBrush, columnBrush, homMat2D;
+
+
+            HObject brush_region_affine = new HObject();
+            HObject ho_Image = new HObject(m_GrayImage);
+            try
+            {
+                HObject brush_region = null;
+                brush_region = this.regions.Last().getRegion();
+                HOperatorSet.AreaCenter(brush_region, out areaBrush, out rowBrush, out columnBrush);
+                //显示
+                //////hWindow_Final1.HobjectToHimage(shapeMatchTool.inputImage);
+
+                HWindowControl temp = new HWindowControl();
+                HTuple row2, col2, w, h;
+                HTuple w1, h1;
+                HOperatorSet.GetImageSize(m_GrayImage, out w1, out h1);
+                hWindowControl1.viewWindow.ClearWindow();
+                hWindowControl1.viewWindow.displayImage(m_GrayImage);
+
+                HObject contours;
+                HTuple row, col;
+
+                newExpecCircleRow.Clear();
+                newExpectCircleCol.Clear();
+                newExpectCircleRadius.Clear();
+                newExpecCircleRow.Add(this.regions[0].getModelData()[0]);
+                newExpectCircleCol.Add(this.regions[0].getModelData()[1]);
+                newExpectCircleRadius.Add(this.regions[0].getModelData()[2]);
+
+                HTuple handleID;
+                HOperatorSet.CreateMetrologyModel(out handleID);
+                HTuple width, height;
+                HOperatorSet.GetImageSize(m_GrayImage, out width, out height);
+                HOperatorSet.SetMetrologyModelImageSize(handleID, width[0], height[0]);
+                HTuple index;
+                HOperatorSet.AddMetrologyObjectCircleMeasure(handleID, newExpecCircleRow[0], newExpectCircleCol[0], newExpectCircleRadius[0], new HTuple(ringRadiusLength), new HTuple(5), new HTuple(1), new HTuple(30), new HTuple(), new HTuple(), out index);
+                //////HTuple hom;
+                //////HTuple temp1 = (HTuple)L_regions[0].getModelData()[0];
+                //////HOperatorSet.VectorAngleToRigid(LastExpectRow, LastExpectCol, 0, (HTuple)L_regions[0].getModelData()[0], (HTuple)L_regions[0].getModelData()[1],0,out hom);
+                //////HObject contoursTransed;
+                //////HOperatorSet.AffineTransContourXld(contours ,out contoursTransed,hom );
+                //HOperatorSet.SetMetrologyObjectParam(handleID, new HTuple("all"), new HTuple("measure_transition"), new HTuple(polarity));
+                HOperatorSet.SetMetrologyObjectParam(handleID, new HTuple("all"), new HTuple("num_measures"), new HTuple(cliperNum));
+                HOperatorSet.SetMetrologyObjectParam(handleID, new HTuple("all"), new HTuple("measure_length1"), new HTuple(ringRadiusLength));
+                HOperatorSet.SetMetrologyObjectParam(handleID, new HTuple("all"), new HTuple("measure_length2"), new HTuple(caliperWidth));
+                HOperatorSet.SetMetrologyObjectParam(handleID, new HTuple("all"), new HTuple("measure_threshold"), new HTuple(threshold));
+                //////HOperatorSet.SetMetrologyObjectParam(handleID, new HTuple("all"), new HTuple("measure_select"), new HTuple(edgeSelect));
+                //////HOperatorSet.SetMetrologyObjectParam(handleID, new HTuple("all"), new HTuple("min_score"), new HTuple(minScore));
+                HOperatorSet.ApplyMetrologyModel(m_GrayImage, handleID);
+                HOperatorSet.GetMetrologyObjectMeasures(out contours, handleID, new HTuple("all"), new HTuple("all"), out row, out col);
+
+                hWindowControl1.DispObj(contours, "red");
+
+                //把点显示出来
+
+                HTuple row1, col1;
+                HOperatorSet.GetMetrologyObjectMeasures(out contours, handleID, new HTuple("all"), new HTuple("all"), out row1, out col1);
+
+
+                HObject cross;
+                HTuple row111, col111, row11, col11;
+                HOperatorSet.GetPart(temp.HalconWindow, out row111, out col111, out row11, out col11);
+                HOperatorSet.GenCrossContourXld(out cross, row, col, new HTuple((row11 - row111) / 90.0 + 1), new HTuple(0));        //小细节：我们要想使无论图像像素多大，显示的十字大小都是一样的，就需要得出y=kx+b中的k和b
+                //hWindowControl1.DispObj(cross, "yellow");
+
+                HOperatorSet.ClearMetrologyModel(handleID);
+            }
+            catch (HalconException HDevExpDefaultException)
+            {
+                throw HDevExpDefaultException;
+            }
+            finally
+            {
+                //////hWindow_Final1.HobjectToHimage(shapeMatchTool.inputImage);
+                //hWindowControl1.DispObj(contours, "blue");
+                hWindowControl1.DrawModel = false;
+            }
+        }
+
 
         #endregion
         private void btnModelFile_Click(object sender, EventArgs e)

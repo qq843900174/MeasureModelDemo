@@ -91,6 +91,7 @@
             this.btn_MeasureModel.TabIndex = 3;
             this.btn_MeasureModel.Text = "创建测量模板";
             this.btn_MeasureModel.UseVisualStyleBackColor = true;
+            this.btn_MeasureModel.Click += new System.EventHandler(this.btn_MeasureModel_Click);
             // 
             // btn_AdaptShow
             // 
