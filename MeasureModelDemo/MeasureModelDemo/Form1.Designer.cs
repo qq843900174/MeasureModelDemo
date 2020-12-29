@@ -424,6 +424,7 @@
             this.buttonReadModel.TabIndex = 5;
             this.buttonReadModel.Text = "读取模板";
             this.buttonReadModel.UseVisualStyleBackColor = true;
+            this.buttonReadModel.Click += new System.EventHandler(this.buttonReadModel_Click);
             // 
             // Form1
             // 

@@ -443,6 +443,7 @@ namespace MeasureModelDemo
         /// 卡尺
         /// </summary>
         internal HObject contours;
+
         /// <summary>
         /// 找边极性，从明到暗或从暗到明
         /// </summary>
@@ -1100,5 +1101,35 @@ namespace MeasureModelDemo
 
             return;
         }
+
+        #region 运行测试
+        private void buttonReadModel_Click(object sender, EventArgs e)
+        {
+            materialName = textBoxMaterialName.Text;
+            string WorkPath = System.IO.Directory.GetCurrentDirectory();
+            string ModelPath = WorkPath + "\\Model";
+            if (System.IO.Directory.Exists(ModelPath) == false)
+            {
+                System.IO.Directory.CreateDirectory(ModelPath);
+                MessageBox.Show("文件夹不存在，已创建文件夹！");
+                return;
+            }
+            else
+            {
+                string ShapeModelPath = ModelPath + "\\" + materialName + "-ShapeModel.shm";
+                string MeasureModelPath = ModelPath + "\\" + materialName + "-MeasureModel.mtr";
+                if (System.IO.File.Exists(ShapeModelPath) == false)
+                {
+                    MessageBox.Show("形状模板文件不存在，请创建形状模板！");
+                    return;
+                }
+                if (System.IO.File.Exists(MeasureModelPath) == false)
+                {
+                    MessageBox.Show("测量模板文件不存在，请创建测量模板！");
+                    return;
+                }
+            }
+        }
+        #endregion
     }
 }
