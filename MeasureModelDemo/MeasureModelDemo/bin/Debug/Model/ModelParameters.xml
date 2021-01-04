@@ -1,0 +1,11 @@
+<ModelParameters>
+  <RectItems>
+    <Item Name="rect1" Row="268.6684" Column="196.5733" Phi="0.0024" Length1="67.8813" Length2="148.1236" />
+  </RectItems>
+  <CircleItems>
+    <Item Name="circle1" Row="361.075" Column="405.102" Radius="115.8584" />
+  </CircleItems>
+  <LineItems>
+    <Item Name="line1" Row1="159.9942" Column1="128.6966" Row2="351.0018" Column2="128.266" />
+  </LineItems>
+</ModelParameters>

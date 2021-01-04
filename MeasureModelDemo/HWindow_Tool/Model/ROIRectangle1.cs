@@ -104,11 +104,11 @@ namespace ViewWindow.Model
         {
             window.DispRectangle1(row1, col1, row2, col2);
 
-            window.DispRectangle2(row1, col1, 0, 25, 25);
-            window.DispRectangle2(row1, col2, 0, 25, 25);
-            window.DispRectangle2(row2, col2, 0, 25, 25);
-            window.DispRectangle2(row2, col1, 0, 25, 25);
-            window.DispRectangle2(midR, midC, 0, 25, 25);
+            window.DispRectangle2(row1, col1, 0, 5, 5);
+            window.DispRectangle2(row1, col2, 0, 5, 5);
+            window.DispRectangle2(row2, col2, 0, 5, 5);
+            window.DispRectangle2(row2, col1, 0, 5, 5);
+            window.DispRectangle2(midR, midC, 0, 5, 5);
         }
 
         /// <summary> 
@@ -156,19 +156,19 @@ namespace ViewWindow.Model
             switch (activeHandleIdx)
             {
                 case 0:
-                    window.DispRectangle2(row1, col1, 0, 25, 25);
+                    window.DispRectangle2(row1, col1, 0, 5, 5);
                     break;
                 case 1:
-                    window.DispRectangle2(row1, col2, 0, 25, 25);
+                    window.DispRectangle2(row1, col2, 0, 5, 5);
                     break;
                 case 2:
-                    window.DispRectangle2(row2, col2, 0, 25, 25);
+                    window.DispRectangle2(row2, col2, 0, 5, 5);
                     break;
                 case 3:
-                    window.DispRectangle2(row2, col1, 0, 25, 25);
+                    window.DispRectangle2(row2, col1, 0, 5, 5);
                     break;
                 case 4:
-                    window.DispRectangle2(midR, midC, 0, 25, 25);
+                    window.DispRectangle2(midR, midC, 0, 5, 5);
                     break;
             }
         }

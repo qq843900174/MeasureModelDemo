@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.Xml;
 using HalconDotNet;
 using System.Runtime.InteropServices;
 using System.IO;
@@ -285,6 +286,31 @@ namespace MeasureModelDemo
 
             return;
         }
+
+        internal bool SetROI = false;
+        private void checkBoxSetROI_CheckedChanged(object sender, EventArgs e)
+        {
+            SetROI = checkBoxSetROI.Checked;
+            if (SetROI)
+            {
+                hWindowControl1.viewWindow.notDisplayRoi();
+                this.regions.Clear();
+                if (m_OpenImage == null || m_OpenImage.CountObj() <= 0)
+                {
+                    return;
+                }
+                hWindowControl1.viewWindow.displayImage(m_GrayImage);
+                hWindowControl1.viewWindow.genRect1(100.0, 100.0, 300.0, 300.0, ref this.regions);
+                this.regions.Last().Color = "blue";
+            }
+            else
+            {
+                hWindowControl1.viewWindow.notDisplayRoi();
+                //hWindowControl1.viewWindow.ClearWindow();
+                //hWindowControl1.viewWindow.displayImage(m_GrayImage);
+                this.regions.Clear();
+            }
+        }
         #endregion
 
         #region 创建测量模板
@@ -448,6 +474,7 @@ namespace MeasureModelDemo
         /// 找边极性，从明到暗或从暗到明
         /// </summary>
         internal string polarity = "positive";
+
         internal string edgeSelect = "all";
         internal double minScore = 0.5;
         /// <summary>
@@ -593,8 +620,15 @@ namespace MeasureModelDemo
                                 DialogResult dr = MessageBox.Show("物料模板文件已存在，是否要覆盖？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                                 if (dr == DialogResult.OK)
                                 {
-                                    HOperatorSet.WriteMetrologyModel(handleID, MeasureModelPath);
-                                    MessageBox.Show("保存成功！保存路径：" + ModelPath + "\\" + MeasureModelName);
+                                    if (!WriteRectXml(materialName, ParamResult[0], ParamResult[1], ParamResult[2], ParamResult[3], ParamResult[4]))
+                                    {
+                                        MessageBox.Show("保存失败！Xml文件写入失败！");
+                                    }
+                                    else
+                                    {
+                                        HOperatorSet.WriteMetrologyModel(handleID, MeasureModelPath);
+                                        MessageBox.Show("保存成功！保存路径：" + ModelPath + "\\" + MeasureModelName);
+                                    }
                                 }
                                 else
                                 {        
@@ -602,8 +636,15 @@ namespace MeasureModelDemo
                             }
                             else
                             {
-                                HOperatorSet.WriteMetrologyModel(handleID, MeasureModelPath);
-                                MessageBox.Show("保存成功！保存路径：" + ModelPath + "\\" + MeasureModelName);
+                                if (!WriteRectXml(materialName, ParamResult[0], ParamResult[1], ParamResult[2], ParamResult[3], ParamResult[4]))
+                                {
+                                    MessageBox.Show("保存失败！Xml文件写入失败！");
+                                }
+                                else
+                                {
+                                    HOperatorSet.WriteMetrologyModel(handleID, MeasureModelPath);
+                                    MessageBox.Show("保存成功！保存路径：" + ModelPath + "\\" + MeasureModelName);
+                                }
                             }
 
                         }
@@ -758,16 +799,30 @@ namespace MeasureModelDemo
                                 DialogResult dr = MessageBox.Show("物料模板文件已存在，是否要覆盖？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                                 if (dr == DialogResult.OK)
                                 {
-                                    HOperatorSet.WriteMetrologyModel(handleID, MeasureModelPath);
-                                    MessageBox.Show("保存成功！保存路径：" + ModelPath + "\\" + MeasureModelName);
+                                    if (!WriteCircleXml(materialName, ParamResult[0], ParamResult[1], ParamResult[2]))
+                                    {
+                                        MessageBox.Show("保存失败！Xml文件写入失败！");
+                                    }
+                                    else
+                                    {
+                                        HOperatorSet.WriteMetrologyModel(handleID, MeasureModelPath);
+                                        MessageBox.Show("保存成功！保存路径：" + ModelPath + "\\" + MeasureModelName);
+                                    }
                                 }
                                 else
                                 {
                                 }
                             }
                             {
-                                HOperatorSet.WriteMetrologyModel(handleID, MeasureModelPath);
-                                MessageBox.Show("保存成功！保存路径：" + ModelPath + "\\" + MeasureModelName);
+                                if (!WriteCircleXml(materialName, ParamResult[0], ParamResult[1], ParamResult[2]))
+                                {
+                                    MessageBox.Show("保存失败！Xml文件写入失败！");
+                                }
+                                else
+                                {
+                                    HOperatorSet.WriteMetrologyModel(handleID, MeasureModelPath);
+                                    MessageBox.Show("保存成功！保存路径：" + ModelPath + "\\" + MeasureModelName);
+                                }
                             }
                         }
                         textBoxMaterialName.Text = materialName;
@@ -917,8 +972,15 @@ namespace MeasureModelDemo
                                 DialogResult dr = MessageBox.Show("物料模板文件已存在，是否要覆盖？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                                 if (dr == DialogResult.OK)
                                 {
-                                    HOperatorSet.WriteMetrologyModel(handleID, MeasureModelPath);
-                                    MessageBox.Show("保存成功！保存路径：" + ModelPath + "\\" + MeasureModelName);
+                                    if (!WriteLineXml(materialName, ParamResult[0], ParamResult[1], ParamResult[2], ParamResult[3]))
+                                    {
+                                        MessageBox.Show("保存失败！Xml文件写入失败！");
+                                    }
+                                    else
+                                    {
+                                        HOperatorSet.WriteMetrologyModel(handleID, MeasureModelPath);
+                                        MessageBox.Show("保存成功！保存路径：" + ModelPath + "\\" + MeasureModelName);
+                                    }
                                 }
                                 else
                                 {
@@ -926,8 +988,15 @@ namespace MeasureModelDemo
                             }
                             else
                             {
-                                HOperatorSet.WriteMetrologyModel(handleID, MeasureModelPath);
-                                MessageBox.Show("保存成功！保存路径：" + ModelPath + "\\" + MeasureModelName);
+                                if (!WriteLineXml(materialName, ParamResult[0], ParamResult[1], ParamResult[2], ParamResult[3]))
+                                {
+                                    MessageBox.Show("保存失败！Xml文件写入失败！");
+                                }
+                                else
+                                {
+                                    HOperatorSet.WriteMetrologyModel(handleID, MeasureModelPath);
+                                    MessageBox.Show("保存成功！保存路径：" + ModelPath + "\\" + MeasureModelName);
+                                }
                             }
                         }
                         textBoxMaterialName.Text = materialName;
@@ -1102,6 +1171,220 @@ namespace MeasureModelDemo
             return;
         }
 
+        //XML读写
+        private bool WriteRectXml(string name, double row, double col, double phi, double length1, double length2)
+        {
+            XmlDocument doc = new XmlDocument();
+            XmlElement modelParameters; //根节点
+            XmlNode rectItems; //子节点
+            XmlElement item;
+            bool isItemExist = false;
+            //追加Xml文档
+            if (File.Exists("..\\Debug\\Model\\ModelParameters.xml"))
+            {
+                //如果文件存在，加载Xml
+                doc.Load("..\\Debug\\Model\\ModelParameters.xml");
+                //获得文件根节点
+                modelParameters = doc.DocumentElement;
+                //获得子节点
+                rectItems = modelParameters.SelectSingleNode("/ModelParameters/RectItems");
+                if (rectItems != null)
+                {
+                    rectItems = doc.SelectSingleNode("/ModelParameters/RectItems");
+                    XmlNodeList xnl = doc.SelectNodes("/ModelParameters/RectItems/Item");
+                    foreach (XmlNode xnlitem in xnl)
+                    {
+                        if(xnlitem.Attributes["Name"].Value == name)
+                        {
+                            isItemExist = true;
+                            item = doc.CreateElement("Item");
+                            item.SetAttribute("Name", name);
+                            item.SetAttribute("Row", row.ToString("0.####"));
+                            item.SetAttribute("Column", col.ToString("0.####"));
+                            item.SetAttribute("Phi", phi.ToString("0.####"));
+                            item.SetAttribute("Length1", length1.ToString("0.####"));
+                            item.SetAttribute("Length2", length2.ToString("0.####"));
+                            rectItems.ReplaceChild(item, xnlitem);
+                        }
+                    }
+
+
+                }
+                else
+                {
+                    //创建子节点
+                    rectItems = doc.CreateElement("RectItems");
+                    modelParameters.AppendChild(rectItems);
+                }
+            }
+            else
+            {
+                //如果文件不存在
+                //创建根节点
+                modelParameters = doc.CreateElement("ModelParameters");
+                doc.AppendChild(modelParameters);
+
+                //创建子节点
+                rectItems = doc.CreateElement("RectItems");
+                modelParameters.AppendChild(rectItems);
+            }
+
+            if (!isItemExist)
+            {
+                //创建元素节点并设置属性
+                item = doc.CreateElement("Item");
+                item.SetAttribute("Name", name);
+                item.SetAttribute("Row", row.ToString("0.####"));
+                item.SetAttribute("Column", col.ToString("0.####"));
+                item.SetAttribute("Phi", phi.ToString("0.####"));
+                item.SetAttribute("Length1", length1.ToString("0.####"));
+                item.SetAttribute("Length2", length2.ToString("0.####"));
+                rectItems.AppendChild(item);
+            }
+            //保存xml
+            doc.Save("..\\Debug\\Model\\ModelParameters.xml");
+            return true;
+        }
+        private bool WriteCircleXml(string name, double row, double col, double radius)
+        {
+            XmlDocument doc = new XmlDocument();
+            XmlElement modelParameters; //根节点
+            XmlNode circleItems; //子节点
+            XmlElement item;
+            bool isItemExist = false;
+            //追加Xml文档
+            if (File.Exists("..\\Debug\\Model\\ModelParameters.xml"))
+            {
+                //如果文件存在，加载Xml
+                doc.Load("..\\Debug\\Model\\ModelParameters.xml");
+                //获得文件根节点
+                modelParameters = doc.DocumentElement;
+                //获得子节点
+                circleItems = modelParameters.SelectSingleNode("/ModelParameters/CircleItems");
+                if (circleItems != null)
+                {
+                    circleItems = doc.SelectSingleNode("/ModelParameters/CircleItems");
+                    XmlNodeList xnl = doc.SelectNodes("/ModelParameters/CircleItems/Item");
+                    foreach (XmlNode xnlitem in xnl)
+                    {
+                        if (xnlitem.Attributes["Name"].Value == name)
+                        {
+                            isItemExist = true;
+                            item = doc.CreateElement("Item");
+                            item.SetAttribute("Name", name);
+                            item.SetAttribute("Row", row.ToString("0.####"));
+                            item.SetAttribute("Column", col.ToString("0.####"));
+                            item.SetAttribute("Radius", radius.ToString("0.####"));
+                            circleItems.ReplaceChild(item, xnlitem);
+                        }
+                    }
+
+
+                }
+                else
+                {
+                    //创建子节点
+                    circleItems = doc.CreateElement("CircleItems");
+                    modelParameters.AppendChild(circleItems);
+                }
+            }
+            else
+            {
+                //如果文件不存在
+                //创建根节点
+                modelParameters = doc.CreateElement("ModelParameters");
+                doc.AppendChild(modelParameters);
+
+                //创建子节点
+                circleItems = doc.CreateElement("CircleItems");
+                modelParameters.AppendChild(circleItems);
+            }
+
+            if (!isItemExist)
+            {
+                //创建元素节点并设置属性
+                item = doc.CreateElement("Item");
+                item.SetAttribute("Name", name);
+                item.SetAttribute("Row", row.ToString("0.####"));
+                item.SetAttribute("Column", col.ToString("0.####"));
+                item.SetAttribute("Radius", radius.ToString("0.####"));
+                circleItems.AppendChild(item);
+            }
+            //保存xml
+            doc.Save("..\\Debug\\Model\\ModelParameters.xml");
+            return true;
+        }
+        private bool WriteLineXml(string name, double row1, double col1, double row2, double col2)
+        {
+            XmlDocument doc = new XmlDocument();
+            XmlElement modelParameters; //根节点
+            XmlNode lineItems; //子节点
+            XmlElement item;
+            bool isItemExist = false;
+            //追加Xml文档
+            if (File.Exists("..\\Debug\\Model\\ModelParameters.xml"))
+            {
+                //如果文件存在，加载Xml
+                doc.Load("..\\Debug\\Model\\ModelParameters.xml");
+                //获得文件根节点
+                modelParameters = doc.DocumentElement;
+                //获得子节点
+                lineItems = modelParameters.SelectSingleNode("/ModelParameters/LineItems");
+                if (lineItems != null)
+                {
+                    lineItems = doc.SelectSingleNode("/ModelParameters/LineItems");
+                    XmlNodeList xnl = doc.SelectNodes("/ModelParameters/LineItems/Item");
+                    foreach (XmlNode xnlitem in xnl)
+                    {
+                        if (xnlitem.Attributes["Name"].Value == name)
+                        {
+                            isItemExist = true;
+                            item = doc.CreateElement("Item");
+                            item.SetAttribute("Name", name);
+                            item.SetAttribute("Row1", row1.ToString("0.####"));
+                            item.SetAttribute("Column1", col1.ToString("0.####"));
+                            item.SetAttribute("Row2", row2.ToString("0.####"));
+                            item.SetAttribute("Column2", col2.ToString("0.####"));
+                            lineItems.ReplaceChild(item, xnlitem);
+                        }
+                    }
+
+
+                }
+                else
+                {
+                    //创建子节点
+                    lineItems = doc.CreateElement("LineItems");
+                    modelParameters.AppendChild(lineItems);
+                }
+            }
+            else
+            {
+                //如果文件不存在
+                //创建根节点
+                modelParameters = doc.CreateElement("ModelParameters");
+                doc.AppendChild(modelParameters);
+
+                //创建子节点
+                lineItems = doc.CreateElement("LineItems");
+                modelParameters.AppendChild(lineItems);
+            }
+
+            if (!isItemExist)
+            {
+                //创建元素节点并设置属性
+                item = doc.CreateElement("Item");
+                item.SetAttribute("Name", name);
+                item.SetAttribute("Row1", row1.ToString("0.####"));
+                item.SetAttribute("Column1", col1.ToString("0.####"));
+                item.SetAttribute("Row2", row2.ToString("0.####"));
+                item.SetAttribute("Column2", col2.ToString("0.####"));
+                lineItems.AppendChild(item);
+            }
+            //保存xml
+            doc.Save("..\\Debug\\Model\\ModelParameters.xml");
+            return true;
+        }
         #region 运行测试
         private void buttonReadModel_Click(object sender, EventArgs e)
         {

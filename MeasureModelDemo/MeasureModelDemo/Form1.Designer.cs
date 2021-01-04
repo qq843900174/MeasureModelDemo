@@ -45,31 +45,32 @@
             this.checkBoxDisplayFeature = new System.Windows.Forms.CheckBox();
             this.checkBoxDisplayCaliper = new System.Windows.Forms.CheckBox();
             this.comboBox_MeasureTool = new System.Windows.Forms.ComboBox();
+            this.pictureBox_MeasureToolEnable = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.labelResultX = new System.Windows.Forms.Label();
-            this.groupBoxTestResult = new System.Windows.Forms.GroupBox();
-            this.labelResultY = new System.Windows.Forms.Label();
-            this.labelResultAngle = new System.Windows.Forms.Label();
-            this.labelMaterialName = new System.Windows.Forms.Label();
-            this.groupBoxReadModel = new System.Windows.Forms.GroupBox();
-            this.pictureBox_MeasureToolEnable = new System.Windows.Forms.PictureBox();
             this.buttonTest = new System.Windows.Forms.Button();
-            this.textBoxMaterialName = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.groupBoxReadModel = new System.Windows.Forms.GroupBox();
             this.buttonReadModel = new System.Windows.Forms.Button();
+            this.textBoxMaterialName = new System.Windows.Forms.TextBox();
+            this.labelMaterialName = new System.Windows.Forms.Label();
+            this.groupBoxTestResult = new System.Windows.Forms.GroupBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.labelResultAngle = new System.Windows.Forms.Label();
+            this.labelResultY = new System.Windows.Forms.Label();
+            this.labelResultX = new System.Windows.Forms.Label();
+            this.checkBoxSetROI = new System.Windows.Forms.CheckBox();
             this.groupBoxShapeModelParams.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarThreshold)).BeginInit();
             this.groupBoxMeasrueModelParams.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_MeasureToolEnable)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.groupBoxTestResult.SuspendLayout();
             this.groupBoxReadModel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_MeasureToolEnable)).BeginInit();
+            this.groupBoxTestResult.SuspendLayout();
             this.SuspendLayout();
             // 
             // hWindowControl1
@@ -97,7 +98,7 @@
             // 
             // btn_CreatShapeModel
             // 
-            this.btn_CreatShapeModel.Location = new System.Drawing.Point(78, 145);
+            this.btn_CreatShapeModel.Location = new System.Drawing.Point(137, 145);
             this.btn_CreatShapeModel.Name = "btn_CreatShapeModel";
             this.btn_CreatShapeModel.Size = new System.Drawing.Size(117, 35);
             this.btn_CreatShapeModel.TabIndex = 2;
@@ -118,6 +119,7 @@
             // groupBoxShapeModelParams
             // 
             this.groupBoxShapeModelParams.BackColor = System.Drawing.Color.Transparent;
+            this.groupBoxShapeModelParams.Controls.Add(this.checkBoxSetROI);
             this.groupBoxShapeModelParams.Controls.Add(this.radioBtnWhiteBack);
             this.groupBoxShapeModelParams.Controls.Add(this.btn_CreatShapeModel);
             this.groupBoxShapeModelParams.Controls.Add(this.radioBtnBlackBack);
@@ -261,6 +263,18 @@
             this.comboBox_MeasureTool.TabIndex = 5;
             this.comboBox_MeasureTool.SelectedIndexChanged += new System.EventHandler(this.comboBox_MeasureTool_Changed);
             // 
+            // pictureBox_MeasureToolEnable
+            // 
+            this.pictureBox_MeasureToolEnable.Image = global::MeasureModelDemo.Properties.Resources.Disable;
+            this.pictureBox_MeasureToolEnable.Location = new System.Drawing.Point(13, 25);
+            this.pictureBox_MeasureToolEnable.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox_MeasureToolEnable.Name = "pictureBox_MeasureToolEnable";
+            this.pictureBox_MeasureToolEnable.Size = new System.Drawing.Size(78, 37);
+            this.pictureBox_MeasureToolEnable.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox_MeasureToolEnable.TabIndex = 4;
+            this.pictureBox_MeasureToolEnable.TabStop = false;
+            this.pictureBox_MeasureToolEnable.Click += new System.EventHandler(this.pictureBox1_MearsureEnable_Click);
+            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
@@ -297,14 +311,53 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "运行测试";
             // 
-            // labelResultX
+            // buttonTest
             // 
-            this.labelResultX.AutoSize = true;
-            this.labelResultX.Location = new System.Drawing.Point(63, 47);
-            this.labelResultX.Name = "labelResultX";
-            this.labelResultX.Size = new System.Drawing.Size(23, 15);
-            this.labelResultX.TabIndex = 0;
-            this.labelResultX.Text = "X:";
+            this.buttonTest.Location = new System.Drawing.Point(92, 490);
+            this.buttonTest.Name = "buttonTest";
+            this.buttonTest.Size = new System.Drawing.Size(104, 43);
+            this.buttonTest.TabIndex = 4;
+            this.buttonTest.Text = "测试";
+            this.buttonTest.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxReadModel
+            // 
+            this.groupBoxReadModel.Controls.Add(this.buttonReadModel);
+            this.groupBoxReadModel.Controls.Add(this.textBoxMaterialName);
+            this.groupBoxReadModel.Controls.Add(this.labelMaterialName);
+            this.groupBoxReadModel.Location = new System.Drawing.Point(6, 6);
+            this.groupBoxReadModel.Name = "groupBoxReadModel";
+            this.groupBoxReadModel.Size = new System.Drawing.Size(269, 172);
+            this.groupBoxReadModel.TabIndex = 3;
+            this.groupBoxReadModel.TabStop = false;
+            this.groupBoxReadModel.Text = "模板读取";
+            // 
+            // buttonReadModel
+            // 
+            this.buttonReadModel.Location = new System.Drawing.Point(86, 98);
+            this.buttonReadModel.Name = "buttonReadModel";
+            this.buttonReadModel.Size = new System.Drawing.Size(104, 43);
+            this.buttonReadModel.TabIndex = 5;
+            this.buttonReadModel.Text = "读取模板";
+            this.buttonReadModel.UseVisualStyleBackColor = true;
+            this.buttonReadModel.Click += new System.EventHandler(this.buttonReadModel_Click);
+            // 
+            // textBoxMaterialName
+            // 
+            this.textBoxMaterialName.Location = new System.Drawing.Point(92, 36);
+            this.textBoxMaterialName.Name = "textBoxMaterialName";
+            this.textBoxMaterialName.Size = new System.Drawing.Size(108, 25);
+            this.textBoxMaterialName.TabIndex = 3;
+            this.textBoxMaterialName.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // labelMaterialName
+            // 
+            this.labelMaterialName.AutoSize = true;
+            this.labelMaterialName.Location = new System.Drawing.Point(11, 39);
+            this.labelMaterialName.Name = "labelMaterialName";
+            this.labelMaterialName.Size = new System.Drawing.Size(75, 15);
+            this.labelMaterialName.TabIndex = 2;
+            this.labelMaterialName.Text = "物料名称:";
             // 
             // groupBoxTestResult
             // 
@@ -321,82 +374,14 @@
             this.groupBoxTestResult.TabStop = false;
             this.groupBoxTestResult.Text = "测试结果";
             // 
-            // labelResultY
+            // textBox3
             // 
-            this.labelResultY.AutoSize = true;
-            this.labelResultY.Location = new System.Drawing.Point(63, 89);
-            this.labelResultY.Name = "labelResultY";
-            this.labelResultY.Size = new System.Drawing.Size(23, 15);
-            this.labelResultY.TabIndex = 1;
-            this.labelResultY.Text = "Y:";
-            // 
-            // labelResultAngle
-            // 
-            this.labelResultAngle.AutoSize = true;
-            this.labelResultAngle.Location = new System.Drawing.Point(41, 131);
-            this.labelResultAngle.Name = "labelResultAngle";
-            this.labelResultAngle.Size = new System.Drawing.Size(45, 15);
-            this.labelResultAngle.TabIndex = 2;
-            this.labelResultAngle.Text = "角度:";
-            // 
-            // labelMaterialName
-            // 
-            this.labelMaterialName.AutoSize = true;
-            this.labelMaterialName.Location = new System.Drawing.Point(11, 39);
-            this.labelMaterialName.Name = "labelMaterialName";
-            this.labelMaterialName.Size = new System.Drawing.Size(75, 15);
-            this.labelMaterialName.TabIndex = 2;
-            this.labelMaterialName.Text = "物料名称:";
-            // 
-            // groupBoxReadModel
-            // 
-            this.groupBoxReadModel.Controls.Add(this.buttonReadModel);
-            this.groupBoxReadModel.Controls.Add(this.textBoxMaterialName);
-            this.groupBoxReadModel.Controls.Add(this.labelMaterialName);
-            this.groupBoxReadModel.Location = new System.Drawing.Point(6, 6);
-            this.groupBoxReadModel.Name = "groupBoxReadModel";
-            this.groupBoxReadModel.Size = new System.Drawing.Size(269, 172);
-            this.groupBoxReadModel.TabIndex = 3;
-            this.groupBoxReadModel.TabStop = false;
-            this.groupBoxReadModel.Text = "模板读取";
-            // 
-            // pictureBox_MeasureToolEnable
-            // 
-            this.pictureBox_MeasureToolEnable.Image = global::MeasureModelDemo.Properties.Resources.Disable;
-            this.pictureBox_MeasureToolEnable.Location = new System.Drawing.Point(13, 25);
-            this.pictureBox_MeasureToolEnable.Margin = new System.Windows.Forms.Padding(4);
-            this.pictureBox_MeasureToolEnable.Name = "pictureBox_MeasureToolEnable";
-            this.pictureBox_MeasureToolEnable.Size = new System.Drawing.Size(78, 37);
-            this.pictureBox_MeasureToolEnable.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox_MeasureToolEnable.TabIndex = 4;
-            this.pictureBox_MeasureToolEnable.TabStop = false;
-            this.pictureBox_MeasureToolEnable.Click += new System.EventHandler(this.pictureBox1_MearsureEnable_Click);
-            // 
-            // buttonTest
-            // 
-            this.buttonTest.Location = new System.Drawing.Point(92, 490);
-            this.buttonTest.Name = "buttonTest";
-            this.buttonTest.Size = new System.Drawing.Size(104, 43);
-            this.buttonTest.TabIndex = 4;
-            this.buttonTest.Text = "测试";
-            this.buttonTest.UseVisualStyleBackColor = true;
-            // 
-            // textBoxMaterialName
-            // 
-            this.textBoxMaterialName.Location = new System.Drawing.Point(92, 36);
-            this.textBoxMaterialName.Name = "textBoxMaterialName";
-            this.textBoxMaterialName.Size = new System.Drawing.Size(108, 25);
-            this.textBoxMaterialName.TabIndex = 3;
-            this.textBoxMaterialName.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(92, 44);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(98, 25);
-            this.textBox1.TabIndex = 4;
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox3.Location = new System.Drawing.Point(92, 128);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.ReadOnly = true;
+            this.textBox3.Size = new System.Drawing.Size(98, 25);
+            this.textBox3.TabIndex = 6;
+            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // textBox2
             // 
@@ -407,24 +392,52 @@
             this.textBox2.TabIndex = 5;
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // textBox3
+            // textBox1
             // 
-            this.textBox3.Location = new System.Drawing.Point(92, 128);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(98, 25);
-            this.textBox3.TabIndex = 6;
-            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox1.Location = new System.Drawing.Point(92, 44);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(98, 25);
+            this.textBox1.TabIndex = 4;
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // buttonReadModel
+            // labelResultAngle
             // 
-            this.buttonReadModel.Location = new System.Drawing.Point(86, 98);
-            this.buttonReadModel.Name = "buttonReadModel";
-            this.buttonReadModel.Size = new System.Drawing.Size(104, 43);
-            this.buttonReadModel.TabIndex = 5;
-            this.buttonReadModel.Text = "读取模板";
-            this.buttonReadModel.UseVisualStyleBackColor = true;
-            this.buttonReadModel.Click += new System.EventHandler(this.buttonReadModel_Click);
+            this.labelResultAngle.AutoSize = true;
+            this.labelResultAngle.Location = new System.Drawing.Point(41, 131);
+            this.labelResultAngle.Name = "labelResultAngle";
+            this.labelResultAngle.Size = new System.Drawing.Size(45, 15);
+            this.labelResultAngle.TabIndex = 2;
+            this.labelResultAngle.Text = "角度:";
+            // 
+            // labelResultY
+            // 
+            this.labelResultY.AutoSize = true;
+            this.labelResultY.Location = new System.Drawing.Point(63, 89);
+            this.labelResultY.Name = "labelResultY";
+            this.labelResultY.Size = new System.Drawing.Size(23, 15);
+            this.labelResultY.TabIndex = 1;
+            this.labelResultY.Text = "Y:";
+            // 
+            // labelResultX
+            // 
+            this.labelResultX.AutoSize = true;
+            this.labelResultX.Location = new System.Drawing.Point(63, 47);
+            this.labelResultX.Name = "labelResultX";
+            this.labelResultX.Size = new System.Drawing.Size(23, 15);
+            this.labelResultX.TabIndex = 0;
+            this.labelResultX.Text = "X:";
+            // 
+            // checkBoxSetROI
+            // 
+            this.checkBoxSetROI.AutoSize = true;
+            this.checkBoxSetROI.Location = new System.Drawing.Point(13, 154);
+            this.checkBoxSetROI.Name = "checkBoxSetROI";
+            this.checkBoxSetROI.Size = new System.Drawing.Size(83, 19);
+            this.checkBoxSetROI.TabIndex = 22;
+            this.checkBoxSetROI.Text = "设置ROI";
+            this.checkBoxSetROI.UseVisualStyleBackColor = true;
+            this.checkBoxSetROI.CheckedChanged += new System.EventHandler(this.checkBoxSetROI_CheckedChanged);
             // 
             // Form1
             // 
@@ -443,14 +456,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBarThreshold)).EndInit();
             this.groupBoxMeasrueModelParams.ResumeLayout(false);
             this.groupBoxMeasrueModelParams.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_MeasureToolEnable)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.groupBoxTestResult.ResumeLayout(false);
-            this.groupBoxTestResult.PerformLayout();
             this.groupBoxReadModel.ResumeLayout(false);
             this.groupBoxReadModel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_MeasureToolEnable)).EndInit();
+            this.groupBoxTestResult.ResumeLayout(false);
+            this.groupBoxTestResult.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -490,6 +503,7 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button buttonReadModel;
+        private System.Windows.Forms.CheckBox checkBoxSetROI;
     }
 }
 
