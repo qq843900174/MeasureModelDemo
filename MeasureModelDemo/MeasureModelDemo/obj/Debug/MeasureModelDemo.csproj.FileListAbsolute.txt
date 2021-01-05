@@ -105,3 +105,4 @@ E:\图像算法库\MeasureModelDemo-框架版\MeasureModelDemo\MeasureModelDemo\
 E:\图像算法库\MeasureModelDemo-框架版\MeasureModelDemo\MeasureModelDemo\obj\Debug\MeasureModelDemo.csproj.CopyComplete
 E:\图像算法库\MeasureModelDemo-框架版\MeasureModelDemo\MeasureModelDemo\obj\Debug\MeasureModelDemo.exe
 E:\图像算法库\MeasureModelDemo-框架版\MeasureModelDemo\MeasureModelDemo\obj\Debug\MeasureModelDemo.pdb
+E:\图像算法库\MeasureModelDemo-框架版\MeasureModelDemo\MeasureModelDemo\bin\Debug\AlgorithmLib.pdb

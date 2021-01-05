@@ -18,10 +18,16 @@ using Microsoft.VisualBasic;
 using ViewWindow;
 using ChoiceTech;
 
+using mojelib;
+using AlgorithmLibDll;
+
 namespace MeasureModelDemo
 {
     public partial class Form1 : Form
     {
+        Sp_FMeasureModel_Rectangle m_MeasureModelRectangleIptParam = new Sp_FMeasureModel_Rectangle();
+        Sr_FMeasureModel_Rectangle m_MeasureModelRectangleOptParam = new Sr_FMeasureModel_Rectangle();
+
         //private static HWindow hwindow; //全局窗口变量
         public HObject m_OpenImage;//全局图像变量
         public HObject binObj, m_GrayImage, m_DealImage;
@@ -108,7 +114,7 @@ namespace MeasureModelDemo
                 string name = roi.GetType().Name;
                 this.regions[index] = roi;
             }
-            if(MeasureModelEnable)
+            if (MeasureModelEnable)
             {
                 //MeasureToolType = comboBox_MeasureTool.SelectedIndex;
                 switch (MeasureToolType)
@@ -161,11 +167,21 @@ namespace MeasureModelDemo
                 materialName = "";
             }
         }
+        //显示原图
+        private void btnDispOriginImage_Click(object sender, EventArgs e)
+        {
+            if(m_GrayImage == null || m_GrayImage.CountObj() <= 0)
+            {
+                return;
+            }
+            hWindowControl1.viewWindow.ClearWindow();
+            hWindowControl1.viewWindow.displayImage(m_GrayImage);
+        }
 
         #region 创建形状模板
         private void btn_CreatShapeModel_Click(object sender, EventArgs e)
         {
-            if(binObj == null)
+            if (binObj == null)
             {
                 return;
             }
@@ -174,14 +190,14 @@ namespace MeasureModelDemo
                 HObject RegionClosing, RegionOpening, ConnectionRegions, SelectRegion, Image_Model;
                 //HObject GrayImage, ImageRotate;
                 HTuple R, C, P, L1, L2, rotateAngle;
-                HOperatorSet.ClosingCircle(binObj, out RegionClosing, 13.5);
-                HOperatorSet.OpeningCircle(RegionClosing, out RegionOpening, 40.5);
+                HOperatorSet.ClosingCircle(binObj, out RegionClosing, 3.5);
+                HOperatorSet.OpeningCircle(RegionClosing, out RegionOpening, 3.5);
                 HOperatorSet.Connection(RegionOpening, out ConnectionRegions);
-                HOperatorSet.SelectShape(ConnectionRegions, out SelectRegion, "rectangularity", "and", 0.7, 1.0);
-                HOperatorSet.SelectShape(SelectRegion, out SelectRegion, "area", "and", 0, m_OpenImageWidth * m_OpenImageWidth / 2);
+                //HOperatorSet.SelectShape(ConnectionRegions, out SelectRegion, "rectangularity", "and", 0.7, 1.0);
+                HOperatorSet.SelectShape(ConnectionRegions, out SelectRegion, "area", "and", 200, m_OpenImageWidth * m_OpenImageWidth / 1.5);
                 int num;
                 num = SelectRegion.CountObj();
-                if(num <= 0)
+                if (num <= 0)
                 {
                     MessageBox.Show("找不到矩形物料，请检查“黑底/白底”和“阈值”。", "错误：");
                     return;
@@ -205,14 +221,14 @@ namespace MeasureModelDemo
 
                 }
 
-                if(materialName == "")
+                if (materialName == "")
                 {
                     return;
                 }
 
                 string WorkPath = System.IO.Directory.GetCurrentDirectory();
                 string ModelPath = WorkPath + "\\Model";
-                if(System.IO.Directory.Exists(ModelPath) == false)
+                if (System.IO.Directory.Exists(ModelPath) == false)
                 {
                     System.IO.Directory.CreateDirectory(ModelPath);
                 }
@@ -227,8 +243,9 @@ namespace MeasureModelDemo
                     {
                         HOperatorSet.WriteShapeModel(ShapeModelID, ShapeModelPath);
                         MessageBox.Show("保存成功！保存路径：" + ModelPath + "\\" + ShapeModelName);
-                        hWindowControl1.HobjectToHimage(m_GrayImage);
-                        hWindowControl1.viewWindow.displayImage(m_GrayImage);
+                        //hWindowControl1.HobjectToHimage(m_GrayImage);
+                        //hWindowControl1.viewWindow.displayImage(m_GrayImage);
+                        hWindowControl1.DispObj(Image_Model, "blue");
                     }
                     else
                     {
@@ -238,8 +255,9 @@ namespace MeasureModelDemo
                 {
                     HOperatorSet.WriteShapeModel(ShapeModelID, ShapeModelPath);
                     MessageBox.Show("保存成功！保存路径：" + ModelPath + "\\" + ShapeModelName);
-                    hWindowControl1.HobjectToHimage(m_GrayImage);
-                    hWindowControl1.viewWindow.displayImage(m_GrayImage);
+                    //hWindowControl1.HobjectToHimage(m_GrayImage);
+                    //hWindowControl1.viewWindow.displayImage(m_GrayImage);
+                    hWindowControl1.DispObj(Image_Model, "blue");
                 }
                 textBoxMaterialName.Text = materialName;
                 //hWindowControl1.DispObj(m_GrayImage);
@@ -321,9 +339,9 @@ namespace MeasureModelDemo
             {
                 case false:
                     pictureBox_MeasureToolEnable.Image = Properties.Resources.Enable;
-                    if(m_OpenImage == null || m_OpenImage.CountObj() <= 0)
+                    if (m_OpenImage == null || m_OpenImage.CountObj() <= 0)
                     {
-                        break; 
+                        break;
                     }
                     hWindowControl1.viewWindow.displayImage(m_GrayImage);
                     //int MeasureToolType;
@@ -395,7 +413,7 @@ namespace MeasureModelDemo
         {
             MeasureModelSave = true;
             MeasureToolType = comboBox_MeasureTool.SelectedIndex;
-            switch(MeasureToolType)
+            switch (MeasureToolType)
             {
                 case 0:
                     applyRectangle2MeasureTool();
@@ -413,7 +431,7 @@ namespace MeasureModelDemo
         //应用测量工具到ROI上
         #region 测量工具成员参数
         internal List<HTuple> newExpectCircleRow = new List<HTuple>(), newExpectCircleCol = new List<HTuple>(), newExpectCircleRadius = new List<HTuple>();
-        internal List<HTuple> newExpectRectRow = new List<HTuple>(), newExpectRectCol = new List<HTuple>(), newExpectRectPhi = new List<HTuple>(), 
+        internal List<HTuple> newExpectRectRow = new List<HTuple>(), newExpectRectCol = new List<HTuple>(), newExpectRectPhi = new List<HTuple>(),
                               newExpectRectLength1 = new List<HTuple>(), newExpectRectLength2 = new List<HTuple>();
         internal List<HTuple> newExpectLineRow1 = new List<HTuple>(), newExpectLineCol1 = new List<HTuple>(), newExpectLineRow2 = new List<HTuple>(), newExpectLineCol2 = new List<HTuple>();
         /// <summary>
@@ -483,7 +501,10 @@ namespace MeasureModelDemo
         internal int cliperNum = 30;
 
         internal HObject brush_region;
+
+
         #endregion
+        //应用测量工具
         private void applyRectangle2MeasureTool()
         {
             if (this.regions.Count() <= 0 || m_OpenImage == null || m_OpenImage.CountObj() <= 0)
@@ -615,7 +636,7 @@ namespace MeasureModelDemo
                             string MeasureModelName = materialName + "-MeasureModel.mtr";
                             string MeasureModelPath = "..\\Debug\\Model\\" + MeasureModelName;
                             //判断是否存在
-                            if(System.IO.File.Exists(ModelPath + "\\" + MeasureModelName))
+                            if (System.IO.File.Exists(ModelPath + "\\" + MeasureModelName))
                             {
                                 DialogResult dr = MessageBox.Show("物料模板文件已存在，是否要覆盖？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                                 if (dr == DialogResult.OK)
@@ -631,7 +652,7 @@ namespace MeasureModelDemo
                                     }
                                 }
                                 else
-                                {        
+                                {
                                 }
                             }
                             else
@@ -754,7 +775,7 @@ namespace MeasureModelDemo
                     }
                     else
                     {
-                        HOperatorSet.GenCircleContourXld(out resultCont, ParamResult[0], ParamResult[1], ParamResult[2], 
+                        HOperatorSet.GenCircleContourXld(out resultCont, ParamResult[0], ParamResult[1], ParamResult[2],
                                                          new HTuple(0).TupleRad(), new HTuple(360).TupleRad(), "positive", 1.0);
                         hWindowControl1.DispObj(resultCont, "blue");
                     }
@@ -1139,14 +1160,32 @@ namespace MeasureModelDemo
                 HObject binImage;
                 HTuple w, h;
 
+                
                 HOperatorSet.Rgb1ToGray(m_OpenImage, out grayObj);
-                if (!isDark)
+                if (SetROI == true)
                 {
-                    HOperatorSet.Threshold(grayObj, out binObj, thresholdVal, 255);
+                    HObject reduceObj, roi;
+                    roi = this.regions.Last().getRegion();
+                    HOperatorSet.ReduceDomain(grayObj, roi, out reduceObj);
+                    if (!isDark)
+                    {
+                        HOperatorSet.Threshold(reduceObj, out binObj, thresholdVal, 255);
+                    }
+                    else
+                    {
+                        HOperatorSet.Threshold(reduceObj, out binObj, 0, thresholdVal);
+                    }
                 }
                 else
                 {
-                    HOperatorSet.Threshold(grayObj, out binObj, 0, thresholdVal);
+                    if (!isDark)
+                    {
+                        HOperatorSet.Threshold(grayObj, out binObj, thresholdVal, 255);
+                    }
+                    else
+                    {
+                        HOperatorSet.Threshold(grayObj, out binObj, 0, thresholdVal);
+                    }
                 }
 
                 HOperatorSet.GetImageSize(m_OpenImage, out w, out h);
@@ -1194,7 +1233,7 @@ namespace MeasureModelDemo
                     XmlNodeList xnl = doc.SelectNodes("/ModelParameters/RectItems/Item");
                     foreach (XmlNode xnlitem in xnl)
                     {
-                        if(xnlitem.Attributes["Name"].Value == name)
+                        if (xnlitem.Attributes["Name"].Value == name)
                         {
                             isItemExist = true;
                             item = doc.CreateElement("Item");
@@ -1385,7 +1424,9 @@ namespace MeasureModelDemo
             doc.Save("..\\Debug\\Model\\ModelParameters.xml");
             return true;
         }
+
         #region 运行测试
+        //读取模板
         private void buttonReadModel_Click(object sender, EventArgs e)
         {
             materialName = textBoxMaterialName.Text;
@@ -1411,6 +1452,106 @@ namespace MeasureModelDemo
                     MessageBox.Show("测量模板文件不存在，请创建测量模板！");
                     return;
                 }
+                MessageBox.Show("读取成功！");
+            }
+        }
+
+        //运行测试
+        private void buttonTest_Click(object sender, EventArgs e)
+        {
+            if(m_GrayImage.CountObj() <= 0)
+            {
+                return;
+            }
+            HTuple Ptr, Width, Height, Type;
+            HOperatorSet.GetImagePointer1(m_GrayImage, out Ptr, out Type, out Width, out Height);
+            if(Ptr == IntPtr.Zero)
+            {
+                return;
+            }
+            int len = 0;
+            len = int.Parse((Width * Height).ToString());
+            byte[] ImagePtr = new byte[len];
+            Marshal.Copy(Ptr, ImagePtr, 0, len);
+            if (ImagePtr.Length <= 0)
+            {
+                return;
+            }
+
+            m_MeasureModelRectangleIptParam.ImagePtr = ImagePtr;
+            m_MeasureModelRectangleIptParam.Threshold = 0;
+            m_MeasureModelRectangleIptParam.ImageW = Width;
+            m_MeasureModelRectangleIptParam.ImageH = Height;
+
+            m_MeasureModelRectangleIptParam.SearchLeft = 0;
+            m_MeasureModelRectangleIptParam.SearchTop = 0;
+            m_MeasureModelRectangleIptParam.SearchWidth = Width - 1;
+            m_MeasureModelRectangleIptParam.SearchHeight = Height - 1;
+
+            m_MeasureModelRectangleIptParam.IsExtractDark = false;
+            m_MeasureModelRectangleIptParam.MaterialW = 100;
+            m_MeasureModelRectangleIptParam.MaterialH = 100;
+            m_MeasureModelRectangleIptParam.IsSaveOKImage = false;
+
+            m_MeasureModelRectangleIptParam.materialName = textBoxMaterialName.Text;
+
+            bool Ret = false;
+            AlgorithmLibMeasureModel measureModel = new AlgorithmLibMeasureModel();
+
+            Ret = measureModel.MeasureModel_Rectangle(m_MeasureModelRectangleIptParam, ref m_MeasureModelRectangleOptParam);
+            if(Ret == true)
+            {
+                if (m_MeasureModelRectangleOptParam.Success == 0)
+                {
+                    textBoxResult.Text = "OK";
+                    textBoxX.Text = m_MeasureModelRectangleOptParam.RectX.ToString();
+                    textBoxY.Text = m_MeasureModelRectangleOptParam.RectY.ToString();
+                    textBoxAngle.Text = m_MeasureModelRectangleOptParam.Angle.ToString() + "°";
+
+                    HObject rectObj, cross;
+                    HTuple row, col, angle, phi, length1, length2;
+                    row = m_MeasureModelRectangleOptParam.RectY;
+                    col = m_MeasureModelRectangleOptParam.RectX;
+                    angle = m_MeasureModelRectangleOptParam.RectAngle;
+                    phi = angle.TupleRad();
+                    length1 = m_MeasureModelRectangleOptParam.RectWidth / 2;
+                    length2 = m_MeasureModelRectangleOptParam.RectHeight / 2;
+
+                    HOperatorSet.GenCrossContourXld(out cross, row, col, 10, 0);
+                    HOperatorSet.GenRectangle2ContourXld(out rectObj, row, col, phi, length1, length2);
+                    hWindowControl1.DispObj(rectObj, "green");
+                    hWindowControl1.viewWindow.ClearWindow();
+                    hWindowControl1.viewWindow.notDisplayRoi();
+                    this.regions.Clear();
+                    if (MeasureModelEnable == true)
+                    {
+                        pictureBox_MeasureToolEnable.Image = Properties.Resources.Disable;
+                        MeasureModelEnable = false;
+                    }
+                    //hWindowControl1.viewWindow.genRect2(row, col, phi, length1, length2, ref this.regions);
+                    //HOperatorSet.GenRectangle2ContourXld(out rectObj, row, col, phi, length1, length2);
+
+                    //hWindowControl1.viewWindow.displayZoomImage(m_GrayImage);
+                    hWindowControl1.viewWindow.displayImage(m_GrayImage);
+                    hWindowControl1.DispObj(cross, "green");
+                    hWindowControl1.DispObj(rectObj, "green");
+                    //hWindowControl1.viewWindow.displayROI(this.regions);
+                    //hWindowControl1.DispObj(regions, "green");
+                }
+                else
+                {
+                    textBoxResult.Text = "NG," + m_MeasureModelRectangleOptParam.Success;
+                    textBoxX.Text = "";
+                    textBoxY.Text = "";
+                    textBoxAngle.Text = "";
+                }
+            }
+            else
+            {
+                textBoxResult.Text = "NG";
+                textBoxX.Text = "";
+                textBoxY.Text = "";
+                textBoxAngle.Text = "";
             }
         }
         #endregion
