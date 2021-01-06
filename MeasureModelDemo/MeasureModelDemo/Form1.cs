@@ -308,25 +308,35 @@ namespace MeasureModelDemo
         internal bool SetROI = false;
         private void checkBoxSetROI_CheckedChanged(object sender, EventArgs e)
         {
-            SetROI = checkBoxSetROI.Checked;
-            if (SetROI)
+            if (MeasureModelEnable == false)
             {
-                hWindowControl1.viewWindow.notDisplayRoi();
-                this.regions.Clear();
-                if (m_OpenImage == null || m_OpenImage.CountObj() <= 0)
+                SetROI = checkBoxSetROI.Checked;
+                if (SetROI)
                 {
-                    return;
+                    hWindowControl1.viewWindow.notDisplayRoi();
+                    this.regions.Clear();
+                    if (m_OpenImage == null || m_OpenImage.CountObj() <= 0)
+                    {
+                        return;
+                    }
+                    hWindowControl1.viewWindow.displayImage(m_GrayImage);
+                    hWindowControl1.viewWindow.genRect1(100.0, 100.0, 300.0, 300.0, ref this.regions);
+                    this.regions.Last().Color = "blue";
                 }
-                hWindowControl1.viewWindow.displayImage(m_GrayImage);
-                hWindowControl1.viewWindow.genRect1(100.0, 100.0, 300.0, 300.0, ref this.regions);
-                this.regions.Last().Color = "blue";
+                else
+                {
+                    hWindowControl1.viewWindow.notDisplayRoi();
+                    //hWindowControl1.viewWindow.ClearWindow();
+                    //hWindowControl1.viewWindow.displayImage(m_GrayImage);
+                    this.regions.Clear();
+                }
             }
             else
             {
-                hWindowControl1.viewWindow.notDisplayRoi();
-                //hWindowControl1.viewWindow.ClearWindow();
-                //hWindowControl1.viewWindow.displayImage(m_GrayImage);
-                this.regions.Clear();
+                MessageBox.Show("请先关闭测量模板使能！");
+                //SetROI = false;
+                //checkBoxSetROI.Checked = false;
+                return;
             }
         }
         #endregion
@@ -541,7 +551,7 @@ namespace MeasureModelDemo
                 HOperatorSet.GetImageSize(m_GrayImage, out width, out height);
                 HOperatorSet.SetMetrologyModelImageSize(handleID, width[0], height[0]);
                 HTuple index;
-                HOperatorSet.AddMetrologyObjectRectangle2Measure(handleID, newExpectRectRow[0], newExpectRectCol[0], newExpectRectPhi[0], newExpectRectLength1[0], newExpectRectLength2[0], new HTuple(measureLength1), new HTuple(5), new HTuple(1), new HTuple(30), new HTuple(), new HTuple(), out index);
+                HOperatorSet.AddMetrologyObjectRectangle2Measure(handleID, newExpectRectRow[0], newExpectRectCol[0], -newExpectRectPhi[0], newExpectRectLength1[0], newExpectRectLength2[0], new HTuple(measureLength1), new HTuple(5), new HTuple(1), new HTuple(30), new HTuple(), new HTuple(), out index);
                 //HOperatorSet.SetMetrologyObjectParam(handleID, new HTuple("all"), new HTuple("measure_transition"), new HTuple(polarity));
                 HOperatorSet.SetMetrologyObjectParam(handleID, new HTuple("all"), new HTuple("num_measures"), new HTuple(cliperNum));
                 HOperatorSet.SetMetrologyObjectParam(handleID, new HTuple("all"), new HTuple("measure_length1"), new HTuple(measureLength1));

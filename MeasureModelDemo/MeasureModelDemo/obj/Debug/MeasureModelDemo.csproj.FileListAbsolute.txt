@@ -92,7 +92,6 @@ E:\图像算法库\MeasureModelDemo\MeasureModelDemo\MeasureModelDemo\obj\Debug\
 E:\图像算法库\MeasureModelDemo-框架版\MeasureModelDemo\MeasureModelDemo\bin\Debug\MeasureModelDemo.exe.config
 E:\图像算法库\MeasureModelDemo-框架版\MeasureModelDemo\MeasureModelDemo\bin\Debug\MeasureModelDemo.exe
 E:\图像算法库\MeasureModelDemo-框架版\MeasureModelDemo\MeasureModelDemo\bin\Debug\MeasureModelDemo.pdb
-E:\图像算法库\MeasureModelDemo-框架版\MeasureModelDemo\MeasureModelDemo\bin\Debug\halcondotnet.dll
 E:\图像算法库\MeasureModelDemo-框架版\MeasureModelDemo\MeasureModelDemo\bin\Debug\HWindow_Tool.exe
 E:\图像算法库\MeasureModelDemo-框架版\MeasureModelDemo\MeasureModelDemo\bin\Debug\HWindow_Tool.pdb
 E:\图像算法库\MeasureModelDemo-框架版\MeasureModelDemo\MeasureModelDemo\bin\Debug\HWindow_Tool.exe.config

@@ -2,6 +2,7 @@
   <RectItems>
     <Item Name="rect1" Row="268.6684" Column="196.5733" Phi="0.0024" Length1="67.8813" Length2="148.1236" />
     <Item Name="tt1" Row="269.0901" Column="196.5071" Phi="-0.0019" Length1="67.8654" Length2="148.7996" />
+    <Item Name="test1" Row="269.4443" Column="196.515" Phi="-0.0033" Length1="67.8619" Length2="149.3576" />
   </RectItems>
   <CircleItems>
     <Item Name="circle1" Row="361.075" Column="405.102" Radius="115.8584" />
